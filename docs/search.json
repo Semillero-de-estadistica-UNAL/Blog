@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Semillero de estadística UNAL",
     "section": "",
-    "text": "Post With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nNov 16, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nNov 13, 2023\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "Primera Sesión\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nNov 16, 2023\n\n\nJulian C\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nNov 16, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nNov 13, 2023\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -26,5 +26,26 @@
     "title": "Welcome To My Blog",
     "section": "",
     "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/Introducción/index.html",
+    "href": "posts/Introducción/index.html",
+    "title": "Primera Sesión",
+    "section": "",
+    "text": "Para comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:\n\nVisita la página de descargas de R: Descargas de R.\nSelecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).\nSigue las instrucciones de instalación proporcionadas en la página.\n\n\n\n\nUna vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:\n\nVisita la página de descargas de RStudio: Descargas de RStudio.\nSelecciona la versión gratuita de RStudio Desktop según tu sistema operativo.\nDescarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina."
+  },
+  {
+    "objectID": "posts/Introducción/index.html#instalación-de-r",
+    "href": "posts/Introducción/index.html#instalación-de-r",
+    "title": "Primera Sesión",
+    "section": "",
+    "text": "Para comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:\n\nVisita la página de descargas de R: Descargas de R.\nSelecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).\nSigue las instrucciones de instalación proporcionadas en la página."
+  },
+  {
+    "objectID": "posts/Introducción/index.html#instalación-de-rstudio",
+    "href": "posts/Introducción/index.html#instalación-de-rstudio",
+    "title": "Primera Sesión",
+    "section": "",
+    "text": "Una vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:\n\nVisita la página de descargas de RStudio: Descargas de RStudio.\nSelecciona la versión gratuita de RStudio Desktop según tu sistema operativo.\nDescarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina."
   }
 ]

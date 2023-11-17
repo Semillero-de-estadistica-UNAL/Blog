@@ -1,0 +1,77 @@
+---
+title: "Primera Sesión"
+author: "Julian C"
+format:
+  html:
+    toc: true
+    toc-location: left
+    code-fold: true
+    code-tools: true
+date: "2023-11-16"
+categories: [news, code, analysis]
+image: "imagen.jpg"
+---
+
+
+# Instalación
+
+## Instalación de R
+
+Para comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:
+
+1.  Visita la página de descargas de R: [Descargas de R](https://cran.r-project.org/mirrors.html).
+
+2.  Selecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).
+
+3.  Sigue las instrucciones de instalación proporcionadas en la página.
+
+## Instalación de RStudio
+
+Una vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:
+
+1.  Visita la página de descargas de RStudio: [Descargas de RStudio](https://www.rstudio.com/products/rstudio/download/).
+
+2.  Selecciona la versión gratuita de RStudio Desktop según tu sistema operativo.
+
+3.  Descarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina.
+
+# Verificación de la instalación
+
+Después de completar la instalación, puedes verificar si R y RStudio están instalados correctamente. Abre RStudio y ejecuta el siguiente código en la consola de R:
+
+```{r}
+R.version$version.string
+sessionInfo()
+```
+
+# Tipos de datos
+
+::: panel-tabset
+## R
+
+``` r
+fizz_buzz <- function(fbnums = 1:50) {
+  output <- dplyr::case_when(
+    fbnums %% 15 == 0 ~ "FizzBuzz",
+    fbnums %% 3 == 0 ~ "Fizz",
+    fbnums %% 5 == 0 ~ "Buzz",
+    TRUE ~ as.character(fbnums)
+  )
+  print(output)
+}
+```
+
+## Python
+
+``` python
+def fizz_buzz(num):
+  if num % 15 == 0:
+    print("FizzBuzz")
+  elif num % 5 == 0:
+    print("Buzz")
+  elif num % 3 == 0:
+    print("Fizz")
+  else:
+    print(num)
+```
+:::
