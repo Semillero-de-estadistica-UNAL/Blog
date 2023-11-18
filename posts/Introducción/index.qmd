@@ -12,6 +12,9 @@ categories: [news, code, analysis]
 image: "imagen.jpg"
 ---
 
+```{r, echo=FALSE}
+library(kableExtra)
+```
 
 # Instalación
 
@@ -41,10 +44,175 @@ Después de completar la instalación, puedes verificar si R y RStudio están in
 
 ```{r}
 R.version$version.string
-sessionInfo()
 ```
 
-# Tipos de datos
+# Tipos de Variables
+
+En estadística es útil clasificar los tipos de datos por la forma y propiedades que manejan, en este sentido existen las siguientes clases de datos o variables con las que se trabaja.
+
+-   Variables Numéricas
+
+    -   Variable continua : Se mide
+
+    -   Variable discretas : Se cuenta
+
+-   Variables Categóricas
+
+    -   Variable Nominal : Se clasifica
+
+        -   Variable Dummy
+
+    -   Variable Ordinal : Se jerarquiza
+
+-   Varaibles tipo Caracter : Sirve para identificar
+
+```{mermaid}
+flowchart TD
+    A(Variables) --> B(Numéricas)
+    A(Variables) --> C(Categóricas)
+    A(Variables) --> D(Caracter)
+    B --> E(Discretas)
+    B --> F(Continuas)
+    C --> G(Nominales)
+    C --> H(Ordinales)
+    E --> I[/Cuentan\]
+    F --> J[/Miden\]
+    G --> K[/Clasifican\]
+    H --> L[/Jerarquizan\]
+    D ---> N[/Identifican\]
+```
+
+```{r}
+set.seed(1)
+datos <- data.frame(id = sample(10000:99999, 10, replace = FALSE),
+                    sexo = sample(c("Hombre","Mujer",NA),10,replace = T),
+                    estatura = round(runif(10,150,190),1),
+                    estrato = sample(1:6,10, replace = T),
+                    edad = sample(20:40, 10,replace = T),
+                    fuma = sample(0:1,10, replace = T))
+                    
+kbl(datos)
+
+```
+
+**¿Cómo se ven estas Variables en R?**
+
+En R para ver cual es el tipo de clase de un objeto se usa la función `class()`. En las variables mencionadas la nomenclatura en R es la siguiente
+
+-   Variable Numérica discreta `int`
+-   Variable Numérica continua `numeric`
+-   Variable Categórica nominal `factor`
+-   Variable Categórica ordinal `factor` con niveles organizados
+-   Variable Caracter `Character`
+
+La función `str()` nos permite ver la estructura de las variables de un data frame
+
+```{r}
+str(datos)
+```
+
+La forma en que se muestran los datos en la tabla es aparentemente adecuada, sin embargo, vemos que la clase de las variables no corresponden a la lógica de los datos.
+
+```{r}
+datos$id <- as.character(datos$id)
+datos$sexo <- factor(datos$sexo)
+datos$estrato <- factor(datos$estrato, levels=c(1,2,3,4,5,6),
+                        labels = c("est1","est2","est3","est4","est5","est6"))
+datos$fuma <- factor(datos$fuma)
+```
+
+```{r}
+kbl(datos)
+str(datos)
+
+```
+
+# Estructura de datos y arreglos
+
+## Vectores
+
+Un vector es una estructura de datos unidimensional que puede contener elementos del mismo tipo, como números, caracteres o lógicos.
+
+Puedes crear vectores utilizando la función `c()` (concatenate) o funciones específicas como `numeric()`, `character()`, `logical()`, etc.
+
+```{r}
+# Ejemplo de vector numérico
+vector_numerico <- c(1, 2, 3, 4, 5)
+# Ejemplo de vector de caracteres
+vector_caracteres <- c("a", "b", "c")
+# Ejemplo de vector lógico
+vector_logico <- c(TRUE, TRUE, TRUE)
+
+# Jerarquia de los vectores 
+char_num <- c(1, 2, "a")
+num_bol <- c(FALSE, 7, TRUE)
+char_bol <- c(FALSE, TRUE, "a")
+all <- c(FALSE, 3, "a")
+cat( char_num,"\n" ,num_bol,"\n", char_bol,"\n", all)
+```
+
+## Matrices
+
+Una matriz es una estructura bidimensional que contiene elementos del mismo tipo.
+
+Se puede crear utilizando la función `matrix().`
+
+```{r}
+# Crear una matriz
+matriz <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3)
+matriz
+
+```
+
+## Array
+
+Un array es una generalización de una matriz que puede tener más de dos dimensiones. Se crea con la función **`array()`**.
+
+```{r}
+matriz1 <- matrix(1:4, nrow = 2)
+matriz2 <- matrix(5:8, nrow = 2)
+
+# Crear un array que contenga las dos matrices anteriores
+matriz_de_matrices <- array(c(matriz1, matriz2), dim = c(2, 2, 2))
+
+# Imprimir el array de matrices
+print(matriz_de_matrices)
+
+```
+
+## Data frame
+
+Un data frame es similar a una matriz, pero puede contener columnas de diferentes tipos. Es una estructura de datos muy utilizada en análisis de datos.
+
+```{r}
+data_df <- data.frame(
+  nombre = c("Juan", "María", "Carlos"),
+  edad = c(25, 30, 22),
+  soltero = c(TRUE, FALSE, TRUE)
+)
+data_df
+
+```
+
+## Lista
+
+Una lista es una estructura de datos que puede contener elementos de diferentes tipos. Cada elemento de la lista puede ser accedido mediante su índice o su nombre.
+
+```{r}
+# Crear una lista
+mi_lista <- list(nombre = "Juan", edad = 25, soltero = TRUE,
+                 df = data_df, array = matriz_de_matrices)
+
+mi_lista 
+```
+
+# Condicionales
+
+# Ciclos
+
+# Funciones
+
+# Familia Apply
 
 ::: panel-tabset
 ## R

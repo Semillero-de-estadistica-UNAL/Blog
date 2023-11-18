@@ -47,5 +47,40 @@
     "title": "Primera Sesión",
     "section": "",
     "text": "Una vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:\n\nVisita la página de descargas de RStudio: Descargas de RStudio.\nSelecciona la versión gratuita de RStudio Desktop según tu sistema operativo.\nDescarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina."
+  },
+  {
+    "objectID": "posts/Introducción/index.html#vectores",
+    "href": "posts/Introducción/index.html#vectores",
+    "title": "Primera Sesión",
+    "section": "Vectores",
+    "text": "Vectores\nUn vector es una estructura de datos unidimensional que puede contener elementos del mismo tipo, como números, caracteres o lógicos.\nPuedes crear vectores utilizando la función c() (concatenate) o funciones específicas como numeric(), character(), logical(), etc.\n\n\nCode\n# Ejemplo de vector numérico\nvector_numerico &lt;- c(1, 2, 3, 4, 5)\n# Ejemplo de vector de caracteres\nvector_caracteres &lt;- c(\"a\", \"b\", \"c\")\n# Ejemplo de vector lógico\nvector_logico &lt;- c(TRUE, TRUE, TRUE)\n\n# Jerarquia de los vectores \nchar_num &lt;- c(1, 2, \"a\")\nnum_bol &lt;- c(FALSE, 7, TRUE)\nchar_bol &lt;- c(FALSE, TRUE, \"a\")\nall &lt;- c(FALSE, 3, \"a\")\ncat( char_num,\"\\n\" ,num_bol,\"\\n\", char_bol,\"\\n\", all)\n\n\n1 2 a \n 0 7 1 \n FALSE TRUE a \n FALSE 3 a"
+  },
+  {
+    "objectID": "posts/Introducción/index.html#matrices",
+    "href": "posts/Introducción/index.html#matrices",
+    "title": "Primera Sesión",
+    "section": "Matrices",
+    "text": "Matrices\nUna matriz es una estructura bidimensional que contiene elementos del mismo tipo.\nSe puede crear utilizando la función matrix().\n\n\nCode\n# Crear una matriz\nmatriz &lt;- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3)\nmatriz\n\n\n     [,1] [,2] [,3]\n[1,]    1    3    5\n[2,]    2    4    6"
+  },
+  {
+    "objectID": "posts/Introducción/index.html#array",
+    "href": "posts/Introducción/index.html#array",
+    "title": "Primera Sesión",
+    "section": "Array",
+    "text": "Array\nUn array es una generalización de una matriz que puede tener más de dos dimensiones. Se crea con la función array().\n\n\nCode\nmatriz1 &lt;- matrix(1:4, nrow = 2)\nmatriz2 &lt;- matrix(5:8, nrow = 2)\n\n# Crear un array que contenga las dos matrices anteriores\nmatriz_de_matrices &lt;- array(c(matriz1, matriz2), dim = c(2, 2, 2))\n\n# Imprimir el array de matrices\nprint(matriz_de_matrices)\n\n\n, , 1\n\n     [,1] [,2]\n[1,]    1    3\n[2,]    2    4\n\n, , 2\n\n     [,1] [,2]\n[1,]    5    7\n[2,]    6    8"
+  },
+  {
+    "objectID": "posts/Introducción/index.html#data-frame",
+    "href": "posts/Introducción/index.html#data-frame",
+    "title": "Primera Sesión",
+    "section": "Data frame",
+    "text": "Data frame\nUn data frame es similar a una matriz, pero puede contener columnas de diferentes tipos. Es una estructura de datos muy utilizada en análisis de datos.\n\n\nCode\ndata_df &lt;- data.frame(\n  nombre = c(\"Juan\", \"María\", \"Carlos\"),\n  edad = c(25, 30, 22),\n  soltero = c(TRUE, FALSE, TRUE)\n)\ndata_df\n\n\n  nombre edad soltero\n1   Juan   25    TRUE\n2  María   30   FALSE\n3 Carlos   22    TRUE"
+  },
+  {
+    "objectID": "posts/Introducción/index.html#lista",
+    "href": "posts/Introducción/index.html#lista",
+    "title": "Primera Sesión",
+    "section": "Lista",
+    "text": "Lista\nUna lista es una estructura de datos que puede contener elementos de diferentes tipos. Cada elemento de la lista puede ser accedido mediante su índice o su nombre.\n\n\nCode\n# Crear una lista\nmi_lista &lt;- list(nombre = \"Juan\", edad = 25, soltero = TRUE,\n                 df = data_df, array = matriz_de_matrices)\n\nmi_lista \n\n\n$nombre\n[1] \"Juan\"\n\n$edad\n[1] 25\n\n$soltero\n[1] TRUE\n\n$df\n  nombre edad soltero\n1   Juan   25    TRUE\n2  María   30   FALSE\n3 Carlos   22    TRUE\n\n$array\n, , 1\n\n     [,1] [,2]\n[1,]    1    3\n[2,]    2    4\n\n, , 2\n\n     [,1] [,2]\n[1,]    5    7\n[2,]    6    8"
   }
 ]
