@@ -82,5 +82,12 @@
     "title": "Primera Sesión",
     "section": "Lista",
     "text": "Lista\nUna lista es una estructura de datos que puede contener elementos de diferentes tipos. Cada elemento de la lista puede ser accedido mediante su índice o su nombre.\n\n\nCode\n# Crear una lista\nmi_lista &lt;- list(nombre = \"Juan\", edad = 25, soltero = TRUE,\n                 df = data_df, array = matriz_de_matrices)\n\nmi_lista \n\n\n$nombre\n[1] \"Juan\"\n\n$edad\n[1] 25\n\n$soltero\n[1] TRUE\n\n$df\n  nombre edad soltero\n1   Juan   25    TRUE\n2  María   30   FALSE\n3 Carlos   22    TRUE\n\n$array\n, , 1\n\n     [,1] [,2]\n[1,]    1    3\n[2,]    2    4\n\n, , 2\n\n     [,1] [,2]\n[1,]    5    7\n[2,]    6    8"
+  },
+  {
+    "objectID": "posts/Clase Py/ClasePy.html",
+    "href": "posts/Clase Py/ClasePy.html",
+    "title": "Semillero de estadística UNAL",
+    "section": "",
+    "text": "Este es un intento:\n\n2+2\n\n[1] 4"
   }
 ]

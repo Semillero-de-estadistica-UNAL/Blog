@@ -1,0 +1,6 @@
+Este es un intento:
+
+```{r}
+2+2
+
+```
