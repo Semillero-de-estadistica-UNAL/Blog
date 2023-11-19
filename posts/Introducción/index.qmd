@@ -7,6 +7,7 @@ format:
     toc-location: left
     code-fold: true
     code-tools: true
+    bibliography: ref.bib
 date: "2023-11-16"
 categories: [news, code, analysis]
 image: "imagen.jpg"
@@ -16,13 +17,15 @@ image: "imagen.jpg"
 library(kableExtra)
 ```
 
+Bienvenido a esta sesión introductoria sobre R, un lenguaje de programación estadística. En esta sesión, abordaremos desde la instalación de R y RStudio hasta la manipulación de variables, estructuras como vectores y matrices, y la implementación de condicionales en R.
+
 # Instalación
 
 ## Instalación de R
 
 Para comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:
 
-1.  Visita la página de descargas de R: [Descargas de R](https://cran.r-project.org/mirrors.html).
+1.  Visita la página de descargas de R: [Descargas de R](https://cran.r-project.org/).
 
 2.  Selecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).
 
@@ -208,38 +211,74 @@ mi_lista
 
 # Condicionales
 
-# Ciclos
+En R, los condicionales son estructuras que permiten ejecutar bloques de código dependiendo de si una condición es verdadera o falsa. Los condicionales más comunes son `if`, `else if` y `else`.
 
-# Funciones
+Para evaluar la ocurrencia de una condición se debe hacer uso de los operadores lógicos.
 
-# Familia Apply
+## Operadores logicos
 
-::: panel-tabset
-## R
+| Operador       | Descripción                        | Ejemplo                          | Resultado (Ejemplo) |
+|----------------|-------------------------|----------------|----------------|
+| `==`           | Igual a                            | `2 == 2`                         | `TRUE`              |
+| `!=`           | No igual a                         | `3 != 5`                         | `TRUE`              |
+| `<`            | Menor que                          | `4 < 7`                          | `TRUE`              |
+| `<=`           | Menor o igual que                  | `6 <= 6`                         | `TRUE`              |
+| `>`            | Mayor que                          | `9 > 3`                          | `TRUE`              |
+| `>=`           | Mayor o igual que                  | `5 >= 5`                         | `TRUE`              |
+| `!`            | Negación (not)                     | `!TRUE`                          | `FALSE`             |
+| `&`            | AND lógico (elemento por elemento) | `c(TRUE, FALSE) & c(TRUE, TRUE)` | `c(TRUE, FALSE)`    |
+| `&&`           | AND lógico (escalar)               | `TRUE && FALSE`                  | `FALSE`             |
+| `|`            | OR lógico (elemento por elemento)  | `c(TRUE, FALSE) | c(TRUE, TRUE)` | `c(TRUE, TRUE)`     |
+| `||`           | OR lógico (escalar)                | `TRUE || FALSE`                  | `TRUE`              |
+| `%in%`         | Pertenencia a un conjunto          | `3 %in% c(1, 2, 3, 4)`           | `TRUE`              |
+| `is.numeric`   | Verificar si es numérico           | `is.numeric(42)`                 | `TRUE`              |
+| `is.character` | Verificar si es caracter           | `is.character("Hola")`           | `TRUE`              |
+| `is.logical`   | Verificar si es lógico             | `is.logical(TRUE)`               | `TRUE`              |
 
-``` r
-fizz_buzz <- function(fbnums = 1:50) {
-  output <- dplyr::case_when(
-    fbnums %% 15 == 0 ~ "FizzBuzz",
-    fbnums %% 3 == 0 ~ "Fizz",
-    fbnums %% 5 == 0 ~ "Buzz",
-    TRUE ~ as.character(fbnums)
-  )
-  print(output)
+## Condicional `if`
+
+Supongamos que tenemos una variable `edad` y queremos imprimir un mensaje dependiendo de si la persona es mayor de edad.
+```{r}
+edad <- c(20)
+if (edad >= 18) {
+  mensaje <- "La persona es mayor de edad."
+} else {
+  mensaje <- "La persona es menor de edad."
 }
+mensaje
 ```
 
-## Python
+## Condicional `else`
 
-``` python
-def fizz_buzz(num):
-  if num % 15 == 0:
-    print("FizzBuzz")
-  elif num % 5 == 0:
-    print("Buzz")
-  elif num % 3 == 0:
-    print("Fizz")
-  else:
-    print(num)
+```{r}
+edad <- 25
+
+if (edad < 18) {
+  mensaje <- "La persona es menor de edad."
+} else if (edad >= 18 & edad < 65) {
+  mensaje <- "La persona es adulta."
+} else {
+  mensaje <- "La persona es adulta mayor."
+}
+
+print(mensaje)
 ```
-:::
+## Función `ifelse()`
+
+La función `ifelse()` nos permite vectorizar la operación de condicionales en un formato funcional. 
+
+Con `if` solo se podía evaluar una única condición, con la función `ifelse()` se pueden evaluar múltiples condiciones a la vez.
+
+```{r}
+set.seed(1)
+edades <- rpois(15,18)
+resultado = ifelse(edades < 18,
+                   "Es menor de edad",
+                   "Es mayor de edad")
+edades
+resultado
+```
+
+# Referencias 
+
+* R para principiantes Juan Bosco Mendoza Vega [bookdown](https://bookdown.org/jboscomendoza/r-principiantes4/).

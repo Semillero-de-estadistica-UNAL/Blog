@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Semillero de estadística UNAL",
     "section": "",
-    "text": "Primera Sesión\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nNov 16, 2023\n\n\nJulian C\n\n\n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nNov 16, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nNov 13, 2023\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "Primera Sesión\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nNov 16, 2023\n\n\nJulian C\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -32,21 +32,21 @@
     "href": "posts/Introducción/index.html",
     "title": "Primera Sesión",
     "section": "",
-    "text": "Para comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:\n\nVisita la página de descargas de R: Descargas de R.\nSelecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).\nSigue las instrucciones de instalación proporcionadas en la página.\n\n\n\n\nUna vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:\n\nVisita la página de descargas de RStudio: Descargas de RStudio.\nSelecciona la versión gratuita de RStudio Desktop según tu sistema operativo.\nDescarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina."
+    "text": "Bienvenido a esta sesión introductoria sobre R, un lenguaje de programación estadística. En esta sesión, abordaremos desde la instalación de R y RStudio hasta la manipulación de variables, estructuras como vectores y matrices, y la implementación de condicionales en R."
   },
   {
     "objectID": "posts/Introducción/index.html#instalación-de-r",
     "href": "posts/Introducción/index.html#instalación-de-r",
     "title": "Primera Sesión",
-    "section": "",
-    "text": "Para comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:\n\nVisita la página de descargas de R: Descargas de R.\nSelecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).\nSigue las instrucciones de instalación proporcionadas en la página."
+    "section": "Instalación de R",
+    "text": "Instalación de R\nPara comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:\n\nVisita la página de descargas de R: Descargas de R.\nSelecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).\nSigue las instrucciones de instalación proporcionadas en la página."
   },
   {
     "objectID": "posts/Introducción/index.html#instalación-de-rstudio",
     "href": "posts/Introducción/index.html#instalación-de-rstudio",
     "title": "Primera Sesión",
-    "section": "",
-    "text": "Una vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:\n\nVisita la página de descargas de RStudio: Descargas de RStudio.\nSelecciona la versión gratuita de RStudio Desktop según tu sistema operativo.\nDescarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina."
+    "section": "Instalación de RStudio",
+    "text": "Instalación de RStudio\nUna vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:\n\nVisita la página de descargas de RStudio: Descargas de RStudio.\nSelecciona la versión gratuita de RStudio Desktop según tu sistema operativo.\nDescarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina."
   },
   {
     "objectID": "posts/Introducción/index.html#vectores",
@@ -82,5 +82,33 @@
     "title": "Primera Sesión",
     "section": "Lista",
     "text": "Lista\nUna lista es una estructura de datos que puede contener elementos de diferentes tipos. Cada elemento de la lista puede ser accedido mediante su índice o su nombre.\n\n\nCode\n# Crear una lista\nmi_lista &lt;- list(nombre = \"Juan\", edad = 25, soltero = TRUE,\n                 df = data_df, array = matriz_de_matrices)\n\nmi_lista \n\n\n$nombre\n[1] \"Juan\"\n\n$edad\n[1] 25\n\n$soltero\n[1] TRUE\n\n$df\n  nombre edad soltero\n1   Juan   25    TRUE\n2  María   30   FALSE\n3 Carlos   22    TRUE\n\n$array\n, , 1\n\n     [,1] [,2]\n[1,]    1    3\n[2,]    2    4\n\n, , 2\n\n     [,1] [,2]\n[1,]    5    7\n[2,]    6    8"
+  },
+  {
+    "objectID": "posts/Introducción/index.html#operadores-logicos",
+    "href": "posts/Introducción/index.html#operadores-logicos",
+    "title": "Primera Sesión",
+    "section": "Operadores logicos",
+    "text": "Operadores logicos\n\n\n\n\n\n\n\n\n\nOperador\nDescripción\nEjemplo\nResultado (Ejemplo)\n\n\n\n\n==\nIgual a\n2 == 2\nTRUE\n\n\n!=\nNo igual a\n3 != 5\nTRUE\n\n\n&lt;\nMenor que\n4 &lt; 7\nTRUE\n\n\n&lt;=\nMenor o igual que\n6 &lt;= 6\nTRUE\n\n\n&gt;\nMayor que\n9 &gt; 3\nTRUE\n\n\n&gt;=\nMayor o igual que\n5 &gt;= 5\nTRUE\n\n\n!\nNegación (not)\n!TRUE\nFALSE\n\n\n&\nAND lógico (elemento por elemento)\nc(TRUE, FALSE) & c(TRUE, TRUE)\nc(TRUE, FALSE)\n\n\n&&\nAND lógico (escalar)\nTRUE && FALSE\nFALSE\n\n\n|\nOR lógico (elemento por elemento)\nc(TRUE, FALSE) | c(TRUE, TRUE)\nc(TRUE, TRUE)\n\n\n||\nOR lógico (escalar)\nTRUE || FALSE\nTRUE\n\n\n%in%\nPertenencia a un conjunto\n3 %in% c(1, 2, 3, 4)\nTRUE\n\n\nis.numeric\nVerificar si es numérico\nis.numeric(42)\nTRUE\n\n\nis.character\nVerificar si es caracter\nis.character(\"Hola\")\nTRUE\n\n\nis.logical\nVerificar si es lógico\nis.logical(TRUE)\nTRUE"
+  },
+  {
+    "objectID": "posts/Introducción/index.html#condicional-if",
+    "href": "posts/Introducción/index.html#condicional-if",
+    "title": "Primera Sesión",
+    "section": "Condicional if",
+    "text": "Condicional if\nSupongamos que tenemos una variable edad y queremos imprimir un mensaje dependiendo de si la persona es mayor de edad.\n\n\nCode\nedad &lt;- c(20)\nif (edad &gt;= 18) {\n  mensaje &lt;- \"La persona es mayor de edad.\"\n} else {\n  mensaje &lt;- \"La persona es menor de edad.\"\n}\nmensaje\n\n\n[1] \"La persona es mayor de edad.\""
+  },
+  {
+    "objectID": "posts/Introducción/index.html#condicional-else",
+    "href": "posts/Introducción/index.html#condicional-else",
+    "title": "Primera Sesión",
+    "section": "Condicional else",
+    "text": "Condicional else\n\n\nCode\nedad &lt;- 25\n\nif (edad &lt; 18) {\n  mensaje &lt;- \"La persona es menor de edad.\"\n} else if (edad &gt;= 18 & edad &lt; 65) {\n  mensaje &lt;- \"La persona es adulta.\"\n} else {\n  mensaje &lt;- \"La persona es adulta mayor.\"\n}\n\nprint(mensaje)\n\n\n[1] \"La persona es adulta.\""
+  },
+  {
+    "objectID": "posts/Introducción/index.html#función-ifelse",
+    "href": "posts/Introducción/index.html#función-ifelse",
+    "title": "Primera Sesión",
+    "section": "Función ifelse()",
+    "text": "Función ifelse()\nLa función ifelse() nos permite vectorizar la operación de condicionales en un formato funcional.\nCon if solo se podía evaluar una única condición, con la función ifelse() se pueden evaluar múltiples condiciones a la vez.\n\n\nCode\nset.seed(1)\nedades &lt;- rpois(15,18)\nresultado = ifelse(edades &lt; 18,\n                   \"Es menor de edad\",\n                   \"Es mayor de edad\")\nedades\n\n\n [1] 15 23 23 19 11 20 21 20 16 24 19 15 16 16 19\n\n\nCode\nresultado\n\n\n [1] \"Es menor de edad\" \"Es mayor de edad\" \"Es mayor de edad\" \"Es mayor de edad\"\n [5] \"Es menor de edad\" \"Es mayor de edad\" \"Es mayor de edad\" \"Es mayor de edad\"\n [9] \"Es menor de edad\" \"Es mayor de edad\" \"Es mayor de edad\" \"Es menor de edad\"\n[13] \"Es menor de edad\" \"Es menor de edad\" \"Es mayor de edad\""
   }
 ]

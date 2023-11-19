@@ -9,9 +9,8 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+        href: https://github.com/Semillero-de-estadistica-UNAL
+        
 format:
   html:
     theme:
