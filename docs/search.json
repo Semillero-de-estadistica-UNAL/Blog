@@ -84,6 +84,7 @@
     "text": "Lista\nUna lista es una estructura de datos que puede contener elementos de diferentes tipos. Cada elemento de la lista puede ser accedido mediante su índice o su nombre.\n\n\nCode\n# Crear una lista\nmi_lista &lt;- list(nombre = \"Juan\", edad = 25, soltero = TRUE,\n                 df = data_df, array = matriz_de_matrices)\n\nmi_lista \n\n\n$nombre\n[1] \"Juan\"\n\n$edad\n[1] 25\n\n$soltero\n[1] TRUE\n\n$df\n  nombre edad soltero\n1   Juan   25    TRUE\n2  María   30   FALSE\n3 Carlos   22    TRUE\n\n$array\n, , 1\n\n     [,1] [,2]\n[1,]    1    3\n[2,]    2    4\n\n, , 2\n\n     [,1] [,2]\n[1,]    5    7\n[2,]    6    8"
   },
   {
+<<<<<<< HEAD
     "objectID": "posts/Introducción/index.html#operadores-logicos",
     "href": "posts/Introducción/index.html#operadores-logicos",
     "title": "Primera Sesión",
@@ -110,5 +111,12 @@
     "title": "Primera Sesión",
     "section": "Función ifelse()",
     "text": "Función ifelse()\nLa función ifelse() nos permite vectorizar la operación de condicionales en un formato funcional.\nCon if solo se podía evaluar una única condición, con la función ifelse() se pueden evaluar múltiples condiciones a la vez.\n\n\nCode\nset.seed(1)\nedades &lt;- rpois(15,18)\nresultado = ifelse(edades &lt; 18,\n                   \"Es menor de edad\",\n                   \"Es mayor de edad\")\nedades\n\n\n [1] 15 23 23 19 11 20 21 20 16 24 19 15 16 16 19\n\n\nCode\nresultado\n\n\n [1] \"Es menor de edad\" \"Es mayor de edad\" \"Es mayor de edad\" \"Es mayor de edad\"\n [5] \"Es menor de edad\" \"Es mayor de edad\" \"Es mayor de edad\" \"Es mayor de edad\"\n [9] \"Es menor de edad\" \"Es mayor de edad\" \"Es mayor de edad\" \"Es menor de edad\"\n[13] \"Es menor de edad\" \"Es menor de edad\" \"Es mayor de edad\""
+=======
+    "objectID": "posts/Clase Py/ClasePy.html",
+    "href": "posts/Clase Py/ClasePy.html",
+    "title": "Semillero de estadística UNAL",
+    "section": "",
+    "text": "Este es un intento:\n\n2+2\n\n[1] 4"
+>>>>>>> 0da2ea05a834f24c43b5b0a185def9ec18d0fac2
   }
 ]

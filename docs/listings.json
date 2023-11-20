@@ -2,7 +2,14 @@
   {
     "listing": "/index.html",
     "items": [
+<<<<<<< HEAD
       "/posts/Introducción/index.html"
+=======
+      "/posts/Clase Py/ClasePy.html",
+      "/posts/Introducción/index.html",
+      "/posts/post-with-code/index.html",
+      "/posts/welcome/index.html"
+>>>>>>> 0da2ea05a834f24c43b5b0a185def9ec18d0fac2
     ]
   }
 ]

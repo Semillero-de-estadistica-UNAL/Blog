@@ -279,6 +279,77 @@ edades
 resultado
 ```
 
+# Ciclos 
+En R, los ciclos son estructuras de control que permiten repetir un bloque de código varias veces. Los ciclos son esenciales para automatizar tareas repetitivas. En esta clase, exploraremos los principales tipos de ciclos en R: for, while, y repeat.
+
+## Ciclo for 
+El ciclo for es utilizado para iterar sobre una secuencia definida de elementos. Su sintaxis básica es la siguiente:
+
+```{r}
+for (i in 1:5) {
+  print(i)
+}
+```
+
+
+## Ciclo while 
+El ciclo while se ejecuta siempre que una condición sea verdadera. Su sintaxis es la siguiente:
+
+```{r}
+
+i <- 1
+while (i <= 5) {
+  print(i)
+  i <- i + 1
+}
+
+```
+
+## Repeat
+repeat se ejecuta indefinidamente hasta que se encuentre una instrucción de salida. Su sintaxis es la siguiente:
+
+```{r}
+i <- 1
+repeat {
+  print(i)
+  i <- i + 1
+  if (i > 5) {
+    break
+  }
+}
+```
+
+**Ciclo for:**
+* Cuando conoces la cantidad de iteraciones de antemano: El ciclo for es útil cuando puedes definir la cantidad exacta de veces que deseas que se ejecute el código.
+* Iteración sobre secuencias predefinidas: Si tienes una secuencia de elementos (por ejemplo, un vector o una lista) sobre la cual deseas iterar, el ciclo for es conveniente.
+
+**Ciclo while:**
+* Cuando la condición de terminación no se conoce de antemano: Si no puedes determinar de antemano cuántas veces se ejecutará el código y la condición de terminación se evalúa dinámicamente, el ciclo while es apropiado.
+* Para situaciones en las que la lógica de la iteración es más compleja: El ciclo while es útil cuando la condición de terminación es más compleja y no puede expresarse fácilmente en términos de una secuencia predeterminada.
+
+**Ciclo repeat:**
+* Cuando se necesita una ejecución indefinida hasta que se cumpla una condición: El ciclo repeat es útil cuando deseas ejecutar un bloque de código repetidamente sin conocer la cantidad exacta de iteraciones y planeas salir del ciclo usando una declaración break basada en una condición específica.
+* Para tareas que requieren flexibilidad extrema en la lógica de iteración: El ciclo repeat te brinda la máxima flexibilidad, pero debes tener cuidado de incluir una condición de salida para evitar bucles infinitos.
+
+# Funciones
+
+Una función en programación es un bloque de código que realiza una tarea específica y puede ser reutilizado en diferentes partes de un programa. Las funciones ayudan a organizar el código, facilitan la modularidad y mejoran la legibilidad y mantenimiento del código. 
+
+```{r}
+sumar <- function(a, b) {
+  resultado <- a + b
+  return(resultado)
+}
+
+resultado_suma <- sumar(3, 5)
+resultado_suma
+```
+# Juntando todo
+
+```{r}
+
+```
+
 # Referencias 
 
 * R para principiantes Juan Bosco Mendoza Vega [bookdown](https://bookdown.org/jboscomendoza/r-principiantes4/).
