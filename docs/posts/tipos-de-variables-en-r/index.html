@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Julian C">
+<meta name="dcterms.date" content="2023-11-16">
+
+<title>Semillero de estadística UNAL - Tipos de variables y datos en r</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Semillero de estadística UNAL</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Semillero-de-estadistica-UNAL" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Tipos de variables y datos en r</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">code</div>
+                <div class="quarto-category">analysis</div>
+                <div class="quarto-category">introduction</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Julian C </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 16, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#instalación" id="toc-instalación" class="nav-link active" data-scroll-target="#instalación">Instalación</a>
+  <ul class="collapse">
+  <li><a href="#instalación-de-r" id="toc-instalación-de-r" class="nav-link" data-scroll-target="#instalación-de-r">Instalación de R</a></li>
+  <li><a href="#instalación-de-rstudio" id="toc-instalación-de-rstudio" class="nav-link" data-scroll-target="#instalación-de-rstudio">Instalación de RStudio</a></li>
+  </ul></li>
+  <li><a href="#verificación-de-la-instalación" id="toc-verificación-de-la-instalación" class="nav-link" data-scroll-target="#verificación-de-la-instalación">Verificación de la instalación</a></li>
+  <li><a href="#tipos-de-variables" id="toc-tipos-de-variables" class="nav-link" data-scroll-target="#tipos-de-variables">Tipos de Variables</a></li>
+  <li><a href="#estructura-de-datos-y-arreglos" id="toc-estructura-de-datos-y-arreglos" class="nav-link" data-scroll-target="#estructura-de-datos-y-arreglos">Estructura de datos y arreglos</a>
+  <ul class="collapse">
+  <li><a href="#vectores" id="toc-vectores" class="nav-link" data-scroll-target="#vectores">Vectores</a></li>
+  <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices">Matrices</a></li>
+  <li><a href="#array" id="toc-array" class="nav-link" data-scroll-target="#array">Array</a></li>
+  <li><a href="#data-frame" id="toc-data-frame" class="nav-link" data-scroll-target="#data-frame">Data frame</a></li>
+  <li><a href="#lista" id="toc-lista" class="nav-link" data-scroll-target="#lista">Lista</a></li>
+  </ul></li>
+  <li><a href="#condicionales" id="toc-condicionales" class="nav-link" data-scroll-target="#condicionales">Condicionales</a>
+  <ul class="collapse">
+  <li><a href="#operadores-logicos" id="toc-operadores-logicos" class="nav-link" data-scroll-target="#operadores-logicos">Operadores logicos</a></li>
+  <li><a href="#condicional-if" id="toc-condicional-if" class="nav-link" data-scroll-target="#condicional-if">Condicional <code>if</code></a></li>
+  <li><a href="#condicional-else" id="toc-condicional-else" class="nav-link" data-scroll-target="#condicional-else">Condicional <code>else</code></a></li>
+  <li><a href="#función-ifelse" id="toc-función-ifelse" class="nav-link" data-scroll-target="#función-ifelse">Función <code>ifelse()</code></a></li>
+  </ul></li>
+  <li><a href="#ciclos" id="toc-ciclos" class="nav-link" data-scroll-target="#ciclos">Ciclos</a>
+  <ul class="collapse">
+  <li><a href="#ciclo-for" id="toc-ciclo-for" class="nav-link" data-scroll-target="#ciclo-for">Ciclo for</a></li>
+  <li><a href="#ciclo-while" id="toc-ciclo-while" class="nav-link" data-scroll-target="#ciclo-while">Ciclo while</a></li>
+  <li><a href="#repeat" id="toc-repeat" class="nav-link" data-scroll-target="#repeat">Repeat</a></li>
+  </ul></li>
+  <li><a href="#funciones" id="toc-funciones" class="nav-link" data-scroll-target="#funciones">Funciones</a></li>
+  <li><a href="#juntando-todo" id="toc-juntando-todo" class="nav-link" data-scroll-target="#juntando-todo">Juntando todo</a></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>Bienvenido a esta sesión introductoria sobre R, un lenguaje de programación estadística. En esta sesión, abordaremos desde la instalación de R y RStudio hasta la manipulación de variables, estructuras como vectores y matrices, y la implementación de condicionales en R.</p>
+<section id="instalación" class="level1">
+<h1>Instalación</h1>
+<section id="instalación-de-r" class="level2">
+<h2 class="anchored" data-anchor-id="instalación-de-r">Instalación de R</h2>
+<p>Para comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:</p>
+<ol type="1">
+<li><p>Visita la página de descargas de R: <a href="https://cran.r-project.org/">Descargas de R</a>.</p></li>
+<li><p>Selecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).</p></li>
+<li><p>Sigue las instrucciones de instalación proporcionadas en la página.</p></li>
+</ol>
+</section>
+<section id="instalación-de-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="instalación-de-rstudio">Instalación de RStudio</h2>
+<p>Una vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:</p>
+<ol type="1">
+<li><p>Visita la página de descargas de RStudio: <a href="https://www.rstudio.com/products/rstudio/download/">Descargas de RStudio</a>.</p></li>
+<li><p>Selecciona la versión gratuita de RStudio Desktop según tu sistema operativo.</p></li>
+<li><p>Descarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina.</p></li>
+</ol>
+</section>
+</section>
+<section id="verificación-de-la-instalación" class="level1">
+<h1>Verificación de la instalación</h1>
+<p>Después de completar la instalación, puedes verificar si R y RStudio están instalados correctamente. Abre RStudio y ejecuta el siguiente código en la consola de R:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>R.version<span class="sc">$</span>version.string</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "R version 4.3.1 (2023-06-16 ucrt)"</code></pre>
+</div>
+</div>
+</section>
+<section id="tipos-de-variables" class="level1">
+<h1>Tipos de Variables</h1>
+<p>En estadística es útil clasificar los tipos de datos por la forma y propiedades que manejan, en este sentido existen las siguientes clases de datos o variables con las que se trabaja.</p>
+<ul>
+<li><p>Variables Numéricas</p>
+<ul>
+<li><p>Variable continua : Se mide</p></li>
+<li><p>Variable discretas : Se cuenta</p></li>
+</ul></li>
+<li><p>Variables Categóricas</p>
+<ul>
+<li><p>Variable Nominal : Se clasifica</p>
+<ul>
+<li>Variable Dummy</li>
+</ul></li>
+<li><p>Variable Ordinal : Se jerarquiza</p></li>
+</ul></li>
+<li><p>Varaibles tipo Caracter : Sirve para identificar</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A(Variables) --&gt; B(Numéricas)
+    A(Variables) --&gt; C(Categóricas)
+    A(Variables) --&gt; D(Caracter)
+    B --&gt; E(Discretas)
+    B --&gt; F(Continuas)
+    C --&gt; G(Nominales)
+    C --&gt; H(Ordinales)
+    E --&gt; I[/Cuentan\]
+    F --&gt; J[/Miden\]
+    G --&gt; K[/Clasifican\]
+    H --&gt; L[/Jerarquizan\]
+    D ---&gt; N[/Identifican\]
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">sample</span>(<span class="dv">10000</span><span class="sc">:</span><span class="dv">99999</span>, <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sexo =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Hombre"</span>,<span class="st">"Mujer"</span>,<span class="cn">NA</span>),<span class="dv">10</span>,<span class="at">replace =</span> T),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">estatura =</span> <span class="fu">round</span>(<span class="fu">runif</span>(<span class="dv">10</span>,<span class="dv">150</span>,<span class="dv">190</span>),<span class="dv">1</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">estrato =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">10</span>, <span class="at">replace =</span> T),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">edad =</span> <span class="fu">sample</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">40</span>, <span class="dv">10</span>,<span class="at">replace =</span> T),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">fuma =</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>,<span class="dv">10</span>, <span class="at">replace =</span> T))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(datos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">id</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sexo</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estatura</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estrato</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">edad</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">fuma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">34387</td>
+<td style="text-align: left;">Mujer</td>
+<td style="text-align: right;">178.9</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">69520</td>
+<td style="text-align: left;">Hombre</td>
+<td style="text-align: right;">166.5</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">53306</td>
+<td style="text-align: left;">Hombre</td>
+<td style="text-align: right;">182.8</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">79585</td>
+<td style="text-align: left;">Mujer</td>
+<td style="text-align: right;">175.9</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">21570</td>
+<td style="text-align: left;">Mujer</td>
+<td style="text-align: right;">181.3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">35172</td>
+<td style="text-align: left;">Mujer</td>
+<td style="text-align: right;">172.1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">42617</td>
+<td style="text-align: left;">Hombre</td>
+<td style="text-align: right;">171.2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23902</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">181.6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18228</td>
+<td style="text-align: left;">Hombre</td>
+<td style="text-align: right;">150.9</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">35304</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">169.1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><strong>¿Cómo se ven estas Variables en R?</strong></p>
+<p>En R para ver cual es el tipo de clase de un objeto se usa la función <code>class()</code>. En las variables mencionadas la nomenclatura en R es la siguiente</p>
+<ul>
+<li>Variable Numérica discreta <code>int</code></li>
+<li>Variable Numérica continua <code>numeric</code></li>
+<li>Variable Categórica nominal <code>factor</code></li>
+<li>Variable Categórica ordinal <code>factor</code> con niveles organizados</li>
+<li>Variable Caracter <code>Character</code></li>
+</ul>
+<p>La función <code>str()</code> nos permite ver la estructura de las variables de un data frame</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(datos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   10 obs. of  6 variables:
+ $ id      : int  34387 69520 53306 79585 21570 35172 42617 23902 18228 35304
+ $ sexo    : chr  "Mujer" "Hombre" "Hombre" "Mujer" ...
+ $ estatura: num  179 166 183 176 181 ...
+ $ estrato : int  1 6 1 4 1 6 2 3 2 6
+ $ edad    : int  33 21 32 37 33 25 20 38 38 27
+ $ fuma    : int  1 0 0 1 1 1 0 0 0 1</code></pre>
+</div>
+</div>
+<p>La forma en que se muestran los datos en la tabla es aparentemente adecuada, sin embargo, vemos que la clase de las variables no corresponden a la lógica de los datos.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">as.character</span>(datos<span class="sc">$</span>id)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>sexo <span class="ot">&lt;-</span> <span class="fu">factor</span>(datos<span class="sc">$</span>sexo)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>estrato <span class="ot">&lt;-</span> <span class="fu">factor</span>(datos<span class="sc">$</span>estrato, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"est1"</span>,<span class="st">"est2"</span>,<span class="st">"est3"</span>,<span class="st">"est4"</span>,<span class="st">"est5"</span>,<span class="st">"est6"</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>fuma <span class="ot">&lt;-</span> <span class="fu">factor</span>(datos<span class="sc">$</span>fuma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(datos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">id</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sexo</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estatura</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">estrato</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">edad</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">fuma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">34387</td>
+<td style="text-align: left;">Mujer</td>
+<td style="text-align: right;">178.9</td>
+<td style="text-align: left;">est1</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">69520</td>
+<td style="text-align: left;">Hombre</td>
+<td style="text-align: right;">166.5</td>
+<td style="text-align: left;">est6</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">53306</td>
+<td style="text-align: left;">Hombre</td>
+<td style="text-align: right;">182.8</td>
+<td style="text-align: left;">est1</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">79585</td>
+<td style="text-align: left;">Mujer</td>
+<td style="text-align: right;">175.9</td>
+<td style="text-align: left;">est4</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">21570</td>
+<td style="text-align: left;">Mujer</td>
+<td style="text-align: right;">181.3</td>
+<td style="text-align: left;">est1</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">35172</td>
+<td style="text-align: left;">Mujer</td>
+<td style="text-align: right;">172.1</td>
+<td style="text-align: left;">est6</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">42617</td>
+<td style="text-align: left;">Hombre</td>
+<td style="text-align: right;">171.2</td>
+<td style="text-align: left;">est2</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">23902</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">181.6</td>
+<td style="text-align: left;">est3</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">18228</td>
+<td style="text-align: left;">Hombre</td>
+<td style="text-align: right;">150.9</td>
+<td style="text-align: left;">est2</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">35304</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">169.1</td>
+<td style="text-align: left;">est6</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">1</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(datos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   10 obs. of  6 variables:
+ $ id      : chr  "34387" "69520" "53306" "79585" ...
+ $ sexo    : Factor w/ 2 levels "Hombre","Mujer": 2 1 1 2 2 2 1 NA 1 NA
+ $ estatura: num  179 166 183 176 181 ...
+ $ estrato : Factor w/ 6 levels "est1","est2",..: 1 6 1 4 1 6 2 3 2 6
+ $ edad    : int  33 21 32 37 33 25 20 38 38 27
+ $ fuma    : Factor w/ 2 levels "0","1": 2 1 1 2 2 2 1 1 1 2</code></pre>
+</div>
+</div>
+</section>
+<section id="estructura-de-datos-y-arreglos" class="level1">
+<h1>Estructura de datos y arreglos</h1>
+<section id="vectores" class="level2">
+<h2 class="anchored" data-anchor-id="vectores">Vectores</h2>
+<p>Un vector es una estructura de datos unidimensional que puede contener elementos del mismo tipo, como números, caracteres o lógicos.</p>
+<p>Puedes crear vectores utilizando la función <code>c()</code> (concatenate) o funciones específicas como <code>numeric()</code>, <code>character()</code>, <code>logical()</code>, etc.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo de vector numérico</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>vector_numerico <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo de vector de caracteres</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>vector_caracteres <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo de vector lógico</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>vector_logico <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Jerarquia de los vectores </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>char_num <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">"a"</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>num_bol <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="dv">7</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>char_bol <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="st">"a"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="dv">3</span>, <span class="st">"a"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>( char_num,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span> ,num_bol,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, char_bol,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>1 2 a 
+ 0 7 1 
+ FALSE TRUE a 
+ FALSE 3 a</code></pre>
+</div>
+</div>
+</section>
+<section id="matrices" class="level2">
+<h2 class="anchored" data-anchor-id="matrices">Matrices</h2>
+<p>Una matriz es una estructura bidimensional que contiene elementos del mismo tipo.</p>
+<p>Se puede crear utilizando la función <code>matrix().</code></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una matriz</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>matriz <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>matriz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6</code></pre>
+</div>
+</div>
+</section>
+<section id="array" class="level2">
+<h2 class="anchored" data-anchor-id="array">Array</h2>
+<p>Un array es una generalización de una matriz que puede tener más de dos dimensiones. Se crea con la función <strong><code>array()</code></strong>.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>matriz1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>matriz2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un array que contenga las dos matrices anteriores</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>matriz_de_matrices <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(matriz1, matriz2), <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimir el array de matrices</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(matriz_de_matrices)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>, , 1
+
+     [,1] [,2]
+[1,]    1    3
+[2,]    2    4
+
+, , 2
+
+     [,1] [,2]
+[1,]    5    7
+[2,]    6    8</code></pre>
+</div>
+</div>
+</section>
+<section id="data-frame" class="level2">
+<h2 class="anchored" data-anchor-id="data-frame">Data frame</h2>
+<p>Un data frame es similar a una matriz, pero puede contener columnas de diferentes tipos. Es una estructura de datos muy utilizada en análisis de datos.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">nombre =</span> <span class="fu">c</span>(<span class="st">"Juan"</span>, <span class="st">"María"</span>, <span class="st">"Carlos"</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">edad =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">22</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">soltero =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>data_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  nombre edad soltero
+1   Juan   25    TRUE
+2  María   30   FALSE
+3 Carlos   22    TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="lista" class="level2">
+<h2 class="anchored" data-anchor-id="lista">Lista</h2>
+<p>Una lista es una estructura de datos que puede contener elementos de diferentes tipos. Cada elemento de la lista puede ser accedido mediante su índice o su nombre.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear una lista</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>mi_lista <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">nombre =</span> <span class="st">"Juan"</span>, <span class="at">edad =</span> <span class="dv">25</span>, <span class="at">soltero =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">df =</span> data_df, <span class="at">array =</span> matriz_de_matrices)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>mi_lista </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$nombre
+[1] "Juan"
+
+$edad
+[1] 25
+
+$soltero
+[1] TRUE
+
+$df
+  nombre edad soltero
+1   Juan   25    TRUE
+2  María   30   FALSE
+3 Carlos   22    TRUE
+
+$array
+, , 1
+
+     [,1] [,2]
+[1,]    1    3
+[2,]    2    4
+
+, , 2
+
+     [,1] [,2]
+[1,]    5    7
+[2,]    6    8</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="condicionales" class="level1">
+<h1>Condicionales</h1>
+<p>En R, los condicionales son estructuras que permiten ejecutar bloques de código dependiendo de si una condición es verdadera o falsa. Los condicionales más comunes son <code>if</code>, <code>else if</code> y <code>else</code>.</p>
+<p>Para evaluar la ocurrencia de una condición se debe hacer uso de los operadores lógicos.</p>
+<section id="operadores-logicos" class="level2">
+<h2 class="anchored" data-anchor-id="operadores-logicos">Operadores logicos</h2>
+<table class="table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 33%">
+<col style="width: 31%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operador</th>
+<th>Descripción</th>
+<th>Ejemplo</th>
+<th>Resultado (Ejemplo)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>==</code></td>
+<td>Igual a</td>
+<td><code>2 == 2</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td>No igual a</td>
+<td><code>3 != 5</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td><code>&lt;</code></td>
+<td>Menor que</td>
+<td><code>4 &lt; 7</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td>Menor o igual que</td>
+<td><code>6 &lt;= 6</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td>Mayor que</td>
+<td><code>9 &gt; 3</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td><code>&gt;=</code></td>
+<td>Mayor o igual que</td>
+<td><code>5 &gt;= 5</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td><code>!</code></td>
+<td>Negación (not)</td>
+<td><code>!TRUE</code></td>
+<td><code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>&amp;</code></td>
+<td>AND lógico (elemento por elemento)</td>
+<td><code>c(TRUE, FALSE) &amp; c(TRUE, TRUE)</code></td>
+<td><code>c(TRUE, FALSE)</code></td>
+</tr>
+<tr class="odd">
+<td><code>&amp;&amp;</code></td>
+<td>AND lógico (escalar)</td>
+<td><code>TRUE &amp;&amp; FALSE</code></td>
+<td><code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>|</code></td>
+<td>OR lógico (elemento por elemento)</td>
+<td><code>c(TRUE, FALSE) | c(TRUE, TRUE)</code></td>
+<td><code>c(TRUE, TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td><code>||</code></td>
+<td>OR lógico (escalar)</td>
+<td><code>TRUE || FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td><code>%in%</code></td>
+<td>Pertenencia a un conjunto</td>
+<td><code>3 %in% c(1, 2, 3, 4)</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td><code>is.numeric</code></td>
+<td>Verificar si es numérico</td>
+<td><code>is.numeric(42)</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td><code>is.character</code></td>
+<td>Verificar si es caracter</td>
+<td><code>is.character("Hola")</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td><code>is.logical</code></td>
+<td>Verificar si es lógico</td>
+<td><code>is.logical(TRUE)</code></td>
+<td><code>TRUE</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="condicional-if" class="level2">
+<h2 class="anchored" data-anchor-id="condicional-if">Condicional <code>if</code></h2>
+<p>Supongamos que tenemos una variable <code>edad</code> y queremos imprimir un mensaje dependiendo de si la persona es mayor de edad.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>edad <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (edad <span class="sc">&gt;=</span> <span class="dv">18</span>) {</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  mensaje <span class="ot">&lt;-</span> <span class="st">"La persona es mayor de edad."</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  mensaje <span class="ot">&lt;-</span> <span class="st">"La persona es menor de edad."</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>mensaje</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "La persona es mayor de edad."</code></pre>
+</div>
+</div>
+</section>
+<section id="condicional-else" class="level2">
+<h2 class="anchored" data-anchor-id="condicional-else">Condicional <code>else</code></h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>edad <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (edad <span class="sc">&lt;</span> <span class="dv">18</span>) {</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  mensaje <span class="ot">&lt;-</span> <span class="st">"La persona es menor de edad."</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (edad <span class="sc">&gt;=</span> <span class="dv">18</span> <span class="sc">&amp;</span> edad <span class="sc">&lt;</span> <span class="dv">65</span>) {</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  mensaje <span class="ot">&lt;-</span> <span class="st">"La persona es adulta."</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  mensaje <span class="ot">&lt;-</span> <span class="st">"La persona es adulta mayor."</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mensaje)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "La persona es adulta."</code></pre>
+</div>
+</div>
+</section>
+<section id="función-ifelse" class="level2">
+<h2 class="anchored" data-anchor-id="función-ifelse">Función <code>ifelse()</code></h2>
+<p>La función <code>ifelse()</code> nos permite vectorizar la operación de condicionales en un formato funcional.</p>
+<p>Con <code>if</code> solo se podía evaluar una única condición, con la función <code>ifelse()</code> se pueden evaluar múltiples condiciones a la vez.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>edades <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">15</span>,<span class="dv">18</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>resultado <span class="ot">=</span> <span class="fu">ifelse</span>(edades <span class="sc">&lt;</span> <span class="dv">18</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Es menor de edad"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Es mayor de edad"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>edades</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 15 23 23 19 11 20 21 20 16 24 19 15 16 16 19</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>resultado</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Es menor de edad" "Es mayor de edad" "Es mayor de edad" "Es mayor de edad"
+ [5] "Es menor de edad" "Es mayor de edad" "Es mayor de edad" "Es mayor de edad"
+ [9] "Es menor de edad" "Es mayor de edad" "Es mayor de edad" "Es menor de edad"
+[13] "Es menor de edad" "Es menor de edad" "Es mayor de edad"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="ciclos" class="level1">
+<h1>Ciclos</h1>
+<p>En R, los ciclos son estructuras de control que permiten repetir un bloque de código varias veces. Los ciclos son esenciales para automatizar tareas repetitivas. En esta clase, exploraremos los principales tipos de ciclos en R: for, while, y repeat.</p>
+<section id="ciclo-for" class="level2">
+<h2 class="anchored" data-anchor-id="ciclo-for">Ciclo for</h2>
+<p>El ciclo for es utilizado para iterar sobre una secuencia definida de elementos. Su sintaxis básica es la siguiente:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2
+[1] 3
+[1] 4
+[1] 5</code></pre>
+</div>
+</div>
+</section>
+<section id="ciclo-while" class="level2">
+<h2 class="anchored" data-anchor-id="ciclo-while">Ciclo while</h2>
+<p>El ciclo while se ejecuta siempre que una condición sea verdadera. Su sintaxis es la siguiente:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (i <span class="sc">&lt;=</span> <span class="dv">5</span>) {</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2
+[1] 3
+[1] 4
+[1] 5</code></pre>
+</div>
+</div>
+</section>
+<section id="repeat" class="level2">
+<h2 class="anchored" data-anchor-id="repeat">Repeat</h2>
+<p>repeat se ejecuta indefinidamente hasta que se encuentre una instrucción de salida. Su sintaxis es la siguiente:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span> {</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">&gt;</span> <span class="dv">5</span>) {</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2
+[1] 3
+[1] 4
+[1] 5</code></pre>
+</div>
+</div>
+<p><strong>Ciclo for:</strong> * Cuando conoces la cantidad de iteraciones de antemano: El ciclo for es útil cuando puedes definir la cantidad exacta de veces que deseas que se ejecute el código. * Iteración sobre secuencias predefinidas: Si tienes una secuencia de elementos (por ejemplo, un vector o una lista) sobre la cual deseas iterar, el ciclo for es conveniente.</p>
+<p><strong>Ciclo while:</strong> * Cuando la condición de terminación no se conoce de antemano: Si no puedes determinar de antemano cuántas veces se ejecutará el código y la condición de terminación se evalúa dinámicamente, el ciclo while es apropiado. * Para situaciones en las que la lógica de la iteración es más compleja: El ciclo while es útil cuando la condición de terminación es más compleja y no puede expresarse fácilmente en términos de una secuencia predeterminada.</p>
+<p><strong>Ciclo repeat:</strong> * Cuando se necesita una ejecución indefinida hasta que se cumpla una condición: El ciclo repeat es útil cuando deseas ejecutar un bloque de código repetidamente sin conocer la cantidad exacta de iteraciones y planeas salir del ciclo usando una declaración break basada en una condición específica. * Para tareas que requieren flexibilidad extrema en la lógica de iteración: El ciclo repeat te brinda la máxima flexibilidad, pero debes tener cuidado de incluir una condición de salida para evitar bucles infinitos.</p>
+</section>
+</section>
+<section id="funciones" class="level1">
+<h1>Funciones</h1>
+<p>Una función en programación es un bloque de código que realiza una tarea específica y puede ser reutilizado en diferentes partes de un programa. Las funciones ayudan a organizar el código, facilitan la modularidad y mejoran la legibilidad y mantenimiento del código.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sumar <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  resultado <span class="ot">&lt;-</span> a <span class="sc">+</span> b</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultado)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>resultado_suma <span class="ot">&lt;-</span> <span class="fu">sumar</span>(<span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>resultado_suma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+</section>
+<section id="juntando-todo" class="level1">
+<h1>Juntando todo</h1>
+</section>
+<section id="referencias" class="level1">
+<h1>Referencias</h1>
+<ul>
+<li>R para principiantes Juan Bosco Mendoza Vega <a href="https://bookdown.org/jboscomendoza/r-principiantes4/">bookdown</a>.</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb36" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Tipos de variables y datos en r"</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Julian C"</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co">    bibliography: ref.bib</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-11-16"</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [code, analysis, introduction]</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> "imagen.jpg"</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, echo=FALSE}</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>Bienvenido a esta sesión introductoria sobre R, un lenguaje de programación estadística. En esta sesión, abordaremos desde la instalación de R y RStudio hasta la manipulación de variables, estructuras como vectores y matrices, y la implementación de condicionales en R.</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="fu"># Instalación</span></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Instalación de R</span></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>Para comenzar, necesitas instalar R en tu sistema. Puedes hacerlo siguiendo estos pasos:</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Visita la página de descargas de R: <span class="co">[</span><span class="ot">Descargas de R</span><span class="co">](https://cran.r-project.org/)</span>.</span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Selecciona un espejo cercano y haz clic en el enlace para tu sistema operativo (por ejemplo, Windows, macOS, o Linux).</span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Sigue las instrucciones de instalación proporcionadas en la página.</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Instalación de RStudio</span></span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a>Una vez que hayas instalado R, puedes instalar RStudio, un entorno de desarrollo integrado (IDE) para R. Sigue estos pasos:</span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Visita la página de descargas de RStudio: <span class="co">[</span><span class="ot">Descargas de RStudio</span><span class="co">](https://www.rstudio.com/products/rstudio/download/)</span>.</span>
+<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Selecciona la versión gratuita de RStudio Desktop según tu sistema operativo.</span>
+<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-42"><a href="#cb36-42" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Descarga el instalador y sigue las instrucciones para instalar RStudio en tu máquina.</span>
+<span id="cb36-43"><a href="#cb36-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-44"><a href="#cb36-44" aria-hidden="true" tabindex="-1"></a><span class="fu"># Verificación de la instalación</span></span>
+<span id="cb36-45"><a href="#cb36-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-46"><a href="#cb36-46" aria-hidden="true" tabindex="-1"></a>Después de completar la instalación, puedes verificar si R y RStudio están instalados correctamente. Abre RStudio y ejecuta el siguiente código en la consola de R:</span>
+<span id="cb36-47"><a href="#cb36-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-50"><a href="#cb36-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-51"><a href="#cb36-51" aria-hidden="true" tabindex="-1"></a>R.version<span class="sc">$</span>version.string</span>
+<span id="cb36-52"><a href="#cb36-52" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-53"><a href="#cb36-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-54"><a href="#cb36-54" aria-hidden="true" tabindex="-1"></a><span class="fu"># Tipos de Variables</span></span>
+<span id="cb36-55"><a href="#cb36-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-56"><a href="#cb36-56" aria-hidden="true" tabindex="-1"></a>En estadística es útil clasificar los tipos de datos por la forma y propiedades que manejan, en este sentido existen las siguientes clases de datos o variables con las que se trabaja.</span>
+<span id="cb36-57"><a href="#cb36-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-58"><a href="#cb36-58" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Variables Numéricas</span>
+<span id="cb36-59"><a href="#cb36-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-60"><a href="#cb36-60" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Variable continua : Se mide</span>
+<span id="cb36-61"><a href="#cb36-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-62"><a href="#cb36-62" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Variable discretas : Se cuenta</span>
+<span id="cb36-63"><a href="#cb36-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-64"><a href="#cb36-64" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Variables Categóricas</span>
+<span id="cb36-65"><a href="#cb36-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-66"><a href="#cb36-66" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Variable Nominal : Se clasifica</span>
+<span id="cb36-67"><a href="#cb36-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-68"><a href="#cb36-68" aria-hidden="true" tabindex="-1"></a><span class="ss">        -   </span>Variable Dummy</span>
+<span id="cb36-69"><a href="#cb36-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-70"><a href="#cb36-70" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Variable Ordinal : Se jerarquiza</span>
+<span id="cb36-71"><a href="#cb36-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-72"><a href="#cb36-72" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Varaibles tipo Caracter : Sirve para identificar</span>
+<span id="cb36-73"><a href="#cb36-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-76"><a href="#cb36-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb36-77"><a href="#cb36-77" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
+<span id="cb36-78"><a href="#cb36-78" aria-hidden="true" tabindex="-1"></a>    A(Variables) --&gt; B(Numéricas)</span>
+<span id="cb36-79"><a href="#cb36-79" aria-hidden="true" tabindex="-1"></a>    A(Variables) --&gt; C(Categóricas)</span>
+<span id="cb36-80"><a href="#cb36-80" aria-hidden="true" tabindex="-1"></a>    A(Variables) --&gt; D(Caracter)</span>
+<span id="cb36-81"><a href="#cb36-81" aria-hidden="true" tabindex="-1"></a>    B --&gt; E(Discretas)</span>
+<span id="cb36-82"><a href="#cb36-82" aria-hidden="true" tabindex="-1"></a>    B --&gt; F(Continuas)</span>
+<span id="cb36-83"><a href="#cb36-83" aria-hidden="true" tabindex="-1"></a>    C --&gt; G(Nominales)</span>
+<span id="cb36-84"><a href="#cb36-84" aria-hidden="true" tabindex="-1"></a>    C --&gt; H(Ordinales)</span>
+<span id="cb36-85"><a href="#cb36-85" aria-hidden="true" tabindex="-1"></a>    E --&gt; I[<span class="ot">/Cuentan\]</span></span>
+<span id="cb36-86"><a href="#cb36-86" aria-hidden="true" tabindex="-1"></a><span class="ot">    F --&gt; J</span><span class="ch">[</span><span class="bn">/Miden\]</span></span>
+<span id="cb36-87"><a href="#cb36-87" aria-hidden="true" tabindex="-1"></a><span class="bn">    G --&gt; K[/Clasifican\]</span></span>
+<span id="cb36-88"><a href="#cb36-88" aria-hidden="true" tabindex="-1"></a><span class="bn">    H --&gt; L[/Jerarquizan\]</span></span>
+<span id="cb36-89"><a href="#cb36-89" aria-hidden="true" tabindex="-1"></a><span class="bn">    D ---&gt; N[/Identifican\]</span></span>
+<span id="cb36-90"><a href="#cb36-90" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-91"><a href="#cb36-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-94"><a href="#cb36-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-95"><a href="#cb36-95" aria-hidden="true" tabindex="-1"></a><span class="bn">set.seed(1)</span></span>
+<span id="cb36-96"><a href="#cb36-96" aria-hidden="true" tabindex="-1"></a><span class="bn">datos &lt;- data.frame(id = sample(10000:99999, 10, replace = FALSE),</span></span>
+<span id="cb36-97"><a href="#cb36-97" aria-hidden="true" tabindex="-1"></a><span class="bn">                    sexo = sample(c("Hombre","Mujer",NA),10,replace = T),</span></span>
+<span id="cb36-98"><a href="#cb36-98" aria-hidden="true" tabindex="-1"></a><span class="bn">                    estatura = round(runif(10,150,190),1),</span></span>
+<span id="cb36-99"><a href="#cb36-99" aria-hidden="true" tabindex="-1"></a><span class="bn">                    estrato = sample(1:6,10, replace = T),</span></span>
+<span id="cb36-100"><a href="#cb36-100" aria-hidden="true" tabindex="-1"></a><span class="bn">                    edad = sample(20:40, 10,replace = T),</span></span>
+<span id="cb36-101"><a href="#cb36-101" aria-hidden="true" tabindex="-1"></a><span class="bn">                    fuma = sample(0:1,10, replace = T))</span></span>
+<span id="cb36-102"><a href="#cb36-102" aria-hidden="true" tabindex="-1"></a><span class="bn">                    </span></span>
+<span id="cb36-103"><a href="#cb36-103" aria-hidden="true" tabindex="-1"></a><span class="bn">kbl(datos)</span></span>
+<span id="cb36-104"><a href="#cb36-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-105"><a href="#cb36-105" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-106"><a href="#cb36-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-107"><a href="#cb36-107" aria-hidden="true" tabindex="-1"></a><span class="bn">**¿Cómo se ven estas Variables en R?**</span></span>
+<span id="cb36-108"><a href="#cb36-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-109"><a href="#cb36-109" aria-hidden="true" tabindex="-1"></a><span class="bn">En R para ver cual es el tipo de clase de un objeto se usa la función `class()`. En las variables mencionadas la nomenclatura en R es la siguiente</span></span>
+<span id="cb36-110"><a href="#cb36-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-111"><a href="#cb36-111" aria-hidden="true" tabindex="-1"></a><span class="bn">-   Variable Numérica discreta `int`</span></span>
+<span id="cb36-112"><a href="#cb36-112" aria-hidden="true" tabindex="-1"></a><span class="bn">-   Variable Numérica continua `numeric`</span></span>
+<span id="cb36-113"><a href="#cb36-113" aria-hidden="true" tabindex="-1"></a><span class="bn">-   Variable Categórica nominal `factor`</span></span>
+<span id="cb36-114"><a href="#cb36-114" aria-hidden="true" tabindex="-1"></a><span class="bn">-   Variable Categórica ordinal `factor` con niveles organizados</span></span>
+<span id="cb36-115"><a href="#cb36-115" aria-hidden="true" tabindex="-1"></a><span class="bn">-   Variable Caracter `Character`</span></span>
+<span id="cb36-116"><a href="#cb36-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-117"><a href="#cb36-117" aria-hidden="true" tabindex="-1"></a><span class="bn">La función `str()` nos permite ver la estructura de las variables de un data frame</span></span>
+<span id="cb36-118"><a href="#cb36-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-121"><a href="#cb36-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-122"><a href="#cb36-122" aria-hidden="true" tabindex="-1"></a><span class="bn">str(datos)</span></span>
+<span id="cb36-123"><a href="#cb36-123" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-124"><a href="#cb36-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-125"><a href="#cb36-125" aria-hidden="true" tabindex="-1"></a><span class="bn">La forma en que se muestran los datos en la tabla es aparentemente adecuada, sin embargo, vemos que la clase de las variables no corresponden a la lógica de los datos.</span></span>
+<span id="cb36-126"><a href="#cb36-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-129"><a href="#cb36-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-130"><a href="#cb36-130" aria-hidden="true" tabindex="-1"></a><span class="bn">datos$id &lt;- as.character(datos$id)</span></span>
+<span id="cb36-131"><a href="#cb36-131" aria-hidden="true" tabindex="-1"></a><span class="bn">datos$sexo &lt;- factor(datos$sexo)</span></span>
+<span id="cb36-132"><a href="#cb36-132" aria-hidden="true" tabindex="-1"></a><span class="bn">datos$estrato &lt;- factor(datos$estrato, levels=c(1,2,3,4,5,6),</span></span>
+<span id="cb36-133"><a href="#cb36-133" aria-hidden="true" tabindex="-1"></a><span class="bn">                        labels = c("est1","est2","est3","est4","est5","est6"))</span></span>
+<span id="cb36-134"><a href="#cb36-134" aria-hidden="true" tabindex="-1"></a><span class="bn">datos$fuma &lt;- factor(datos$fuma)</span></span>
+<span id="cb36-135"><a href="#cb36-135" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-136"><a href="#cb36-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-139"><a href="#cb36-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-140"><a href="#cb36-140" aria-hidden="true" tabindex="-1"></a><span class="bn">kbl(datos)</span></span>
+<span id="cb36-141"><a href="#cb36-141" aria-hidden="true" tabindex="-1"></a><span class="bn">str(datos)</span></span>
+<span id="cb36-142"><a href="#cb36-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-143"><a href="#cb36-143" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-144"><a href="#cb36-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-145"><a href="#cb36-145" aria-hidden="true" tabindex="-1"></a><span class="bn"># Estructura de datos y arreglos</span></span>
+<span id="cb36-146"><a href="#cb36-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-147"><a href="#cb36-147" aria-hidden="true" tabindex="-1"></a><span class="bn">## Vectores</span></span>
+<span id="cb36-148"><a href="#cb36-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-149"><a href="#cb36-149" aria-hidden="true" tabindex="-1"></a><span class="bn">Un vector es una estructura de datos unidimensional que puede contener elementos del mismo tipo, como números, caracteres o lógicos.</span></span>
+<span id="cb36-150"><a href="#cb36-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-151"><a href="#cb36-151" aria-hidden="true" tabindex="-1"></a><span class="bn">Puedes crear vectores utilizando la función `c()` (concatenate) o funciones específicas como `numeric()`, `character()`, `logical()`, etc.</span></span>
+<span id="cb36-152"><a href="#cb36-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-155"><a href="#cb36-155" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-156"><a href="#cb36-156" aria-hidden="true" tabindex="-1"></a><span class="bn"># Ejemplo de vector numérico</span></span>
+<span id="cb36-157"><a href="#cb36-157" aria-hidden="true" tabindex="-1"></a><span class="bn">vector_numerico &lt;- c(1, 2, 3, 4, 5)</span></span>
+<span id="cb36-158"><a href="#cb36-158" aria-hidden="true" tabindex="-1"></a><span class="bn"># Ejemplo de vector de caracteres</span></span>
+<span id="cb36-159"><a href="#cb36-159" aria-hidden="true" tabindex="-1"></a><span class="bn">vector_caracteres &lt;- c("a", "b", "c")</span></span>
+<span id="cb36-160"><a href="#cb36-160" aria-hidden="true" tabindex="-1"></a><span class="bn"># Ejemplo de vector lógico</span></span>
+<span id="cb36-161"><a href="#cb36-161" aria-hidden="true" tabindex="-1"></a><span class="bn">vector_logico &lt;- c(TRUE, TRUE, TRUE)</span></span>
+<span id="cb36-162"><a href="#cb36-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-163"><a href="#cb36-163" aria-hidden="true" tabindex="-1"></a><span class="bn"># Jerarquia de los vectores </span></span>
+<span id="cb36-164"><a href="#cb36-164" aria-hidden="true" tabindex="-1"></a><span class="bn">char_num &lt;- c(1, 2, "a")</span></span>
+<span id="cb36-165"><a href="#cb36-165" aria-hidden="true" tabindex="-1"></a><span class="bn">num_bol &lt;- c(FALSE, 7, TRUE)</span></span>
+<span id="cb36-166"><a href="#cb36-166" aria-hidden="true" tabindex="-1"></a><span class="bn">char_bol &lt;- c(FALSE, TRUE, "a")</span></span>
+<span id="cb36-167"><a href="#cb36-167" aria-hidden="true" tabindex="-1"></a><span class="bn">all &lt;- c(FALSE, 3, "a")</span></span>
+<span id="cb36-168"><a href="#cb36-168" aria-hidden="true" tabindex="-1"></a><span class="bn">cat( char_num,"\n" ,num_bol,"\n", char_bol,"\n", all)</span></span>
+<span id="cb36-169"><a href="#cb36-169" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-170"><a href="#cb36-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-171"><a href="#cb36-171" aria-hidden="true" tabindex="-1"></a><span class="bn">## Matrices</span></span>
+<span id="cb36-172"><a href="#cb36-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-173"><a href="#cb36-173" aria-hidden="true" tabindex="-1"></a><span class="bn">Una matriz es una estructura bidimensional que contiene elementos del mismo tipo.</span></span>
+<span id="cb36-174"><a href="#cb36-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-175"><a href="#cb36-175" aria-hidden="true" tabindex="-1"></a><span class="bn">Se puede crear utilizando la función `matrix().`</span></span>
+<span id="cb36-176"><a href="#cb36-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-179"><a href="#cb36-179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-180"><a href="#cb36-180" aria-hidden="true" tabindex="-1"></a><span class="bn"># Crear una matriz</span></span>
+<span id="cb36-181"><a href="#cb36-181" aria-hidden="true" tabindex="-1"></a><span class="bn">matriz &lt;- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3)</span></span>
+<span id="cb36-182"><a href="#cb36-182" aria-hidden="true" tabindex="-1"></a><span class="bn">matriz</span></span>
+<span id="cb36-183"><a href="#cb36-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-184"><a href="#cb36-184" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-185"><a href="#cb36-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-186"><a href="#cb36-186" aria-hidden="true" tabindex="-1"></a><span class="bn">## Array</span></span>
+<span id="cb36-187"><a href="#cb36-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-188"><a href="#cb36-188" aria-hidden="true" tabindex="-1"></a><span class="bn">Un array es una generalización de una matriz que puede tener más de dos dimensiones. Se crea con la función **`array()`**.</span></span>
+<span id="cb36-189"><a href="#cb36-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-192"><a href="#cb36-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-193"><a href="#cb36-193" aria-hidden="true" tabindex="-1"></a><span class="bn">matriz1 &lt;- matrix(1:4, nrow = 2)</span></span>
+<span id="cb36-194"><a href="#cb36-194" aria-hidden="true" tabindex="-1"></a><span class="bn">matriz2 &lt;- matrix(5:8, nrow = 2)</span></span>
+<span id="cb36-195"><a href="#cb36-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-196"><a href="#cb36-196" aria-hidden="true" tabindex="-1"></a><span class="bn"># Crear un array que contenga las dos matrices anteriores</span></span>
+<span id="cb36-197"><a href="#cb36-197" aria-hidden="true" tabindex="-1"></a><span class="bn">matriz_de_matrices &lt;- array(c(matriz1, matriz2), dim = c(2, 2, 2))</span></span>
+<span id="cb36-198"><a href="#cb36-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-199"><a href="#cb36-199" aria-hidden="true" tabindex="-1"></a><span class="bn"># Imprimir el array de matrices</span></span>
+<span id="cb36-200"><a href="#cb36-200" aria-hidden="true" tabindex="-1"></a><span class="bn">print(matriz_de_matrices)</span></span>
+<span id="cb36-201"><a href="#cb36-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-202"><a href="#cb36-202" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-203"><a href="#cb36-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-204"><a href="#cb36-204" aria-hidden="true" tabindex="-1"></a><span class="bn">## Data frame</span></span>
+<span id="cb36-205"><a href="#cb36-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-206"><a href="#cb36-206" aria-hidden="true" tabindex="-1"></a><span class="bn">Un data frame es similar a una matriz, pero puede contener columnas de diferentes tipos. Es una estructura de datos muy utilizada en análisis de datos.</span></span>
+<span id="cb36-207"><a href="#cb36-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-210"><a href="#cb36-210" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-211"><a href="#cb36-211" aria-hidden="true" tabindex="-1"></a><span class="bn">data_df &lt;- data.frame(</span></span>
+<span id="cb36-212"><a href="#cb36-212" aria-hidden="true" tabindex="-1"></a><span class="bn">  nombre = c("Juan", "María", "Carlos"),</span></span>
+<span id="cb36-213"><a href="#cb36-213" aria-hidden="true" tabindex="-1"></a><span class="bn">  edad = c(25, 30, 22),</span></span>
+<span id="cb36-214"><a href="#cb36-214" aria-hidden="true" tabindex="-1"></a><span class="bn">  soltero = c(TRUE, FALSE, TRUE)</span></span>
+<span id="cb36-215"><a href="#cb36-215" aria-hidden="true" tabindex="-1"></a><span class="bn">)</span></span>
+<span id="cb36-216"><a href="#cb36-216" aria-hidden="true" tabindex="-1"></a><span class="bn">data_df</span></span>
+<span id="cb36-217"><a href="#cb36-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-218"><a href="#cb36-218" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-219"><a href="#cb36-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-220"><a href="#cb36-220" aria-hidden="true" tabindex="-1"></a><span class="bn">## Lista</span></span>
+<span id="cb36-221"><a href="#cb36-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-222"><a href="#cb36-222" aria-hidden="true" tabindex="-1"></a><span class="bn">Una lista es una estructura de datos que puede contener elementos de diferentes tipos. Cada elemento de la lista puede ser accedido mediante su índice o su nombre.</span></span>
+<span id="cb36-223"><a href="#cb36-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-226"><a href="#cb36-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-227"><a href="#cb36-227" aria-hidden="true" tabindex="-1"></a><span class="bn"># Crear una lista</span></span>
+<span id="cb36-228"><a href="#cb36-228" aria-hidden="true" tabindex="-1"></a><span class="bn">mi_lista &lt;- list(nombre = "Juan", edad = 25, soltero = TRUE,</span></span>
+<span id="cb36-229"><a href="#cb36-229" aria-hidden="true" tabindex="-1"></a><span class="bn">                 df = data_df, array = matriz_de_matrices)</span></span>
+<span id="cb36-230"><a href="#cb36-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-231"><a href="#cb36-231" aria-hidden="true" tabindex="-1"></a><span class="bn">mi_lista </span></span>
+<span id="cb36-232"><a href="#cb36-232" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-233"><a href="#cb36-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-234"><a href="#cb36-234" aria-hidden="true" tabindex="-1"></a><span class="bn"># Condicionales</span></span>
+<span id="cb36-235"><a href="#cb36-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-236"><a href="#cb36-236" aria-hidden="true" tabindex="-1"></a><span class="bn">En R, los condicionales son estructuras que permiten ejecutar bloques de código dependiendo de si una condición es verdadera o falsa. Los condicionales más comunes son `if`, `else if` y `else`.</span></span>
+<span id="cb36-237"><a href="#cb36-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-238"><a href="#cb36-238" aria-hidden="true" tabindex="-1"></a><span class="bn">Para evaluar la ocurrencia de una condición se debe hacer uso de los operadores lógicos.</span></span>
+<span id="cb36-239"><a href="#cb36-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-240"><a href="#cb36-240" aria-hidden="true" tabindex="-1"></a><span class="bn">## Operadores logicos</span></span>
+<span id="cb36-241"><a href="#cb36-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-242"><a href="#cb36-242" aria-hidden="true" tabindex="-1"></a><span class="bn">| Operador       | Descripción                        | Ejemplo                          | Resultado (Ejemplo) |</span></span>
+<span id="cb36-243"><a href="#cb36-243" aria-hidden="true" tabindex="-1"></a><span class="bn">|----------------|------------------------------------|----------------------------------|---------------------|</span></span>
+<span id="cb36-244"><a href="#cb36-244" aria-hidden="true" tabindex="-1"></a><span class="bn">| `==`           | Igual a                            | `2 == 2`                         | `TRUE`              |</span></span>
+<span id="cb36-245"><a href="#cb36-245" aria-hidden="true" tabindex="-1"></a><span class="bn">| `!=`           | No igual a                         | `3 != 5`                         | `TRUE`              |</span></span>
+<span id="cb36-246"><a href="#cb36-246" aria-hidden="true" tabindex="-1"></a><span class="bn">| `&lt;`            | Menor que                          | `4 &lt; 7`                          | `TRUE`              |</span></span>
+<span id="cb36-247"><a href="#cb36-247" aria-hidden="true" tabindex="-1"></a><span class="bn">| `&lt;=`           | Menor o igual que                  | `6 &lt;= 6`                         | `TRUE`              |</span></span>
+<span id="cb36-248"><a href="#cb36-248" aria-hidden="true" tabindex="-1"></a><span class="bn">| `&gt;`            | Mayor que                          | `9 &gt; 3`                          | `TRUE`              |</span></span>
+<span id="cb36-249"><a href="#cb36-249" aria-hidden="true" tabindex="-1"></a><span class="bn">| `&gt;=`           | Mayor o igual que                  | `5 &gt;= 5`                         | `TRUE`              |</span></span>
+<span id="cb36-250"><a href="#cb36-250" aria-hidden="true" tabindex="-1"></a><span class="bn">| `!`            | Negación (not)                     | `!TRUE`                          | `FALSE`             |</span></span>
+<span id="cb36-251"><a href="#cb36-251" aria-hidden="true" tabindex="-1"></a><span class="bn">| `&amp;`            | AND lógico (elemento por elemento) | `c(TRUE, FALSE) &amp; c(TRUE, TRUE)` | `c(TRUE, FALSE)`    |</span></span>
+<span id="cb36-252"><a href="#cb36-252" aria-hidden="true" tabindex="-1"></a><span class="bn">| `&amp;&amp;`           | AND lógico (escalar)               | `TRUE &amp;&amp; FALSE`                  | `FALSE`             |</span></span>
+<span id="cb36-253"><a href="#cb36-253" aria-hidden="true" tabindex="-1"></a><span class="bn">| `|`            | OR lógico (elemento por elemento)  | `c(TRUE, FALSE) | c(TRUE, TRUE)` | `c(TRUE, TRUE)`     |</span></span>
+<span id="cb36-254"><a href="#cb36-254" aria-hidden="true" tabindex="-1"></a><span class="bn">| `||`           | OR lógico (escalar)                | `TRUE || FALSE`                  | `TRUE`              |</span></span>
+<span id="cb36-255"><a href="#cb36-255" aria-hidden="true" tabindex="-1"></a><span class="bn">| `%in%`         | Pertenencia a un conjunto          | `3 %in% c(1, 2, 3, 4)`           | `TRUE`              |</span></span>
+<span id="cb36-256"><a href="#cb36-256" aria-hidden="true" tabindex="-1"></a><span class="bn">| `is.numeric`   | Verificar si es numérico           | `is.numeric(42)`                 | `TRUE`              |</span></span>
+<span id="cb36-257"><a href="#cb36-257" aria-hidden="true" tabindex="-1"></a><span class="bn">| `is.character` | Verificar si es caracter           | `is.character("Hola")`           | `TRUE`              |</span></span>
+<span id="cb36-258"><a href="#cb36-258" aria-hidden="true" tabindex="-1"></a><span class="bn">| `is.logical`   | Verificar si es lógico             | `is.logical(TRUE)`               | `TRUE`              |</span></span>
+<span id="cb36-259"><a href="#cb36-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-260"><a href="#cb36-260" aria-hidden="true" tabindex="-1"></a><span class="bn">## Condicional `if`</span></span>
+<span id="cb36-261"><a href="#cb36-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-262"><a href="#cb36-262" aria-hidden="true" tabindex="-1"></a><span class="bn">Supongamos que tenemos una variable `edad` y queremos imprimir un mensaje dependiendo de si la persona es mayor de edad.</span></span>
+<span id="cb36-263"><a href="#cb36-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-266"><a href="#cb36-266" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-267"><a href="#cb36-267" aria-hidden="true" tabindex="-1"></a><span class="bn">edad &lt;- c(20)</span></span>
+<span id="cb36-268"><a href="#cb36-268" aria-hidden="true" tabindex="-1"></a><span class="bn">if (edad &gt;= 18) {</span></span>
+<span id="cb36-269"><a href="#cb36-269" aria-hidden="true" tabindex="-1"></a><span class="bn">  mensaje &lt;- "La persona es mayor de edad."</span></span>
+<span id="cb36-270"><a href="#cb36-270" aria-hidden="true" tabindex="-1"></a><span class="bn">} else {</span></span>
+<span id="cb36-271"><a href="#cb36-271" aria-hidden="true" tabindex="-1"></a><span class="bn">  mensaje &lt;- "La persona es menor de edad."</span></span>
+<span id="cb36-272"><a href="#cb36-272" aria-hidden="true" tabindex="-1"></a><span class="bn">}</span></span>
+<span id="cb36-273"><a href="#cb36-273" aria-hidden="true" tabindex="-1"></a><span class="bn">mensaje</span></span>
+<span id="cb36-274"><a href="#cb36-274" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-275"><a href="#cb36-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-276"><a href="#cb36-276" aria-hidden="true" tabindex="-1"></a><span class="bn">## Condicional `else`</span></span>
+<span id="cb36-277"><a href="#cb36-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-280"><a href="#cb36-280" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-281"><a href="#cb36-281" aria-hidden="true" tabindex="-1"></a><span class="bn">edad &lt;- 25</span></span>
+<span id="cb36-282"><a href="#cb36-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-283"><a href="#cb36-283" aria-hidden="true" tabindex="-1"></a><span class="bn">if (edad &lt; 18) {</span></span>
+<span id="cb36-284"><a href="#cb36-284" aria-hidden="true" tabindex="-1"></a><span class="bn">  mensaje &lt;- "La persona es menor de edad."</span></span>
+<span id="cb36-285"><a href="#cb36-285" aria-hidden="true" tabindex="-1"></a><span class="bn">} else if (edad &gt;= 18 &amp; edad &lt; 65) {</span></span>
+<span id="cb36-286"><a href="#cb36-286" aria-hidden="true" tabindex="-1"></a><span class="bn">  mensaje &lt;- "La persona es adulta."</span></span>
+<span id="cb36-287"><a href="#cb36-287" aria-hidden="true" tabindex="-1"></a><span class="bn">} else {</span></span>
+<span id="cb36-288"><a href="#cb36-288" aria-hidden="true" tabindex="-1"></a><span class="bn">  mensaje &lt;- "La persona es adulta mayor."</span></span>
+<span id="cb36-289"><a href="#cb36-289" aria-hidden="true" tabindex="-1"></a><span class="bn">}</span></span>
+<span id="cb36-290"><a href="#cb36-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-291"><a href="#cb36-291" aria-hidden="true" tabindex="-1"></a><span class="bn">print(mensaje)</span></span>
+<span id="cb36-292"><a href="#cb36-292" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-293"><a href="#cb36-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-294"><a href="#cb36-294" aria-hidden="true" tabindex="-1"></a><span class="bn">## Función `ifelse()`</span></span>
+<span id="cb36-295"><a href="#cb36-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-296"><a href="#cb36-296" aria-hidden="true" tabindex="-1"></a><span class="bn">La función `ifelse()` nos permite vectorizar la operación de condicionales en un formato funcional.</span></span>
+<span id="cb36-297"><a href="#cb36-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-298"><a href="#cb36-298" aria-hidden="true" tabindex="-1"></a><span class="bn">Con `if` solo se podía evaluar una única condición, con la función `ifelse()` se pueden evaluar múltiples condiciones a la vez.</span></span>
+<span id="cb36-299"><a href="#cb36-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-302"><a href="#cb36-302" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-303"><a href="#cb36-303" aria-hidden="true" tabindex="-1"></a><span class="bn">set.seed(1)</span></span>
+<span id="cb36-304"><a href="#cb36-304" aria-hidden="true" tabindex="-1"></a><span class="bn">edades &lt;- rpois(15,18)</span></span>
+<span id="cb36-305"><a href="#cb36-305" aria-hidden="true" tabindex="-1"></a><span class="bn">resultado = ifelse(edades &lt; 18,</span></span>
+<span id="cb36-306"><a href="#cb36-306" aria-hidden="true" tabindex="-1"></a><span class="bn">                   "Es menor de edad",</span></span>
+<span id="cb36-307"><a href="#cb36-307" aria-hidden="true" tabindex="-1"></a><span class="bn">                   "Es mayor de edad")</span></span>
+<span id="cb36-308"><a href="#cb36-308" aria-hidden="true" tabindex="-1"></a><span class="bn">edades</span></span>
+<span id="cb36-309"><a href="#cb36-309" aria-hidden="true" tabindex="-1"></a><span class="bn">resultado</span></span>
+<span id="cb36-310"><a href="#cb36-310" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-311"><a href="#cb36-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-312"><a href="#cb36-312" aria-hidden="true" tabindex="-1"></a><span class="bn"># Ciclos</span></span>
+<span id="cb36-313"><a href="#cb36-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-314"><a href="#cb36-314" aria-hidden="true" tabindex="-1"></a><span class="bn">En R, los ciclos son estructuras de control que permiten repetir un bloque de código varias veces. Los ciclos son esenciales para automatizar tareas repetitivas. En esta clase, exploraremos los principales tipos de ciclos en R: for, while, y repeat.</span></span>
+<span id="cb36-315"><a href="#cb36-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-316"><a href="#cb36-316" aria-hidden="true" tabindex="-1"></a><span class="bn">## Ciclo for</span></span>
+<span id="cb36-317"><a href="#cb36-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-318"><a href="#cb36-318" aria-hidden="true" tabindex="-1"></a><span class="bn">El ciclo for es utilizado para iterar sobre una secuencia definida de elementos. Su sintaxis básica es la siguiente:</span></span>
+<span id="cb36-319"><a href="#cb36-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-322"><a href="#cb36-322" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-323"><a href="#cb36-323" aria-hidden="true" tabindex="-1"></a><span class="bn">for (i in 1:5) {</span></span>
+<span id="cb36-324"><a href="#cb36-324" aria-hidden="true" tabindex="-1"></a><span class="bn">  print(i)</span></span>
+<span id="cb36-325"><a href="#cb36-325" aria-hidden="true" tabindex="-1"></a><span class="bn">}</span></span>
+<span id="cb36-326"><a href="#cb36-326" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-327"><a href="#cb36-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-328"><a href="#cb36-328" aria-hidden="true" tabindex="-1"></a><span class="bn">## Ciclo while</span></span>
+<span id="cb36-329"><a href="#cb36-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-330"><a href="#cb36-330" aria-hidden="true" tabindex="-1"></a><span class="bn">El ciclo while se ejecuta siempre que una condición sea verdadera. Su sintaxis es la siguiente:</span></span>
+<span id="cb36-331"><a href="#cb36-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-334"><a href="#cb36-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-335"><a href="#cb36-335" aria-hidden="true" tabindex="-1"></a><span class="bn">i &lt;- 1</span></span>
+<span id="cb36-336"><a href="#cb36-336" aria-hidden="true" tabindex="-1"></a><span class="bn">while (i &lt;= 5) {</span></span>
+<span id="cb36-337"><a href="#cb36-337" aria-hidden="true" tabindex="-1"></a><span class="bn">  print(i)</span></span>
+<span id="cb36-338"><a href="#cb36-338" aria-hidden="true" tabindex="-1"></a><span class="bn">  i &lt;- i + 1</span></span>
+<span id="cb36-339"><a href="#cb36-339" aria-hidden="true" tabindex="-1"></a><span class="bn">}</span></span>
+<span id="cb36-340"><a href="#cb36-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-341"><a href="#cb36-341" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-342"><a href="#cb36-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-343"><a href="#cb36-343" aria-hidden="true" tabindex="-1"></a><span class="bn">## Repeat</span></span>
+<span id="cb36-344"><a href="#cb36-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-345"><a href="#cb36-345" aria-hidden="true" tabindex="-1"></a><span class="bn">repeat se ejecuta indefinidamente hasta que se encuentre una instrucción de salida. Su sintaxis es la siguiente:</span></span>
+<span id="cb36-346"><a href="#cb36-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-349"><a href="#cb36-349" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-350"><a href="#cb36-350" aria-hidden="true" tabindex="-1"></a><span class="bn">i &lt;- 1</span></span>
+<span id="cb36-351"><a href="#cb36-351" aria-hidden="true" tabindex="-1"></a><span class="bn">repeat {</span></span>
+<span id="cb36-352"><a href="#cb36-352" aria-hidden="true" tabindex="-1"></a><span class="bn">  print(i)</span></span>
+<span id="cb36-353"><a href="#cb36-353" aria-hidden="true" tabindex="-1"></a><span class="bn">  i &lt;- i + 1</span></span>
+<span id="cb36-354"><a href="#cb36-354" aria-hidden="true" tabindex="-1"></a><span class="bn">  if (i &gt; 5) {</span></span>
+<span id="cb36-355"><a href="#cb36-355" aria-hidden="true" tabindex="-1"></a><span class="bn">    break</span></span>
+<span id="cb36-356"><a href="#cb36-356" aria-hidden="true" tabindex="-1"></a><span class="bn">  }</span></span>
+<span id="cb36-357"><a href="#cb36-357" aria-hidden="true" tabindex="-1"></a><span class="bn">}</span></span>
+<span id="cb36-358"><a href="#cb36-358" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-359"><a href="#cb36-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-360"><a href="#cb36-360" aria-hidden="true" tabindex="-1"></a><span class="bn">**Ciclo for:** \* Cuando conoces la cantidad de iteraciones de antemano: El ciclo for es útil cuando puedes definir la cantidad exacta de veces que deseas que se ejecute el código. \* Iteración sobre secuencias predefinidas: Si tienes una secuencia de elementos (por ejemplo, un vector o una lista) sobre la cual deseas iterar, el ciclo for es conveniente.</span></span>
+<span id="cb36-361"><a href="#cb36-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-362"><a href="#cb36-362" aria-hidden="true" tabindex="-1"></a><span class="bn">**Ciclo while:** \* Cuando la condición de terminación no se conoce de antemano: Si no puedes determinar de antemano cuántas veces se ejecutará el código y la condición de terminación se evalúa dinámicamente, el ciclo while es apropiado. \* Para situaciones en las que la lógica de la iteración es más compleja: El ciclo while es útil cuando la condición de terminación es más compleja y no puede expresarse fácilmente en términos de una secuencia predeterminada.</span></span>
+<span id="cb36-363"><a href="#cb36-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-364"><a href="#cb36-364" aria-hidden="true" tabindex="-1"></a><span class="bn">**Ciclo repeat:** \* Cuando se necesita una ejecución indefinida hasta que se cumpla una condición: El ciclo repeat es útil cuando deseas ejecutar un bloque de código repetidamente sin conocer la cantidad exacta de iteraciones y planeas salir del ciclo usando una declaración break basada en una condición específica. \* Para tareas que requieren flexibilidad extrema en la lógica de iteración: El ciclo repeat te brinda la máxima flexibilidad, pero debes tener cuidado de incluir una condición de salida para evitar bucles infinitos.</span></span>
+<span id="cb36-365"><a href="#cb36-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-366"><a href="#cb36-366" aria-hidden="true" tabindex="-1"></a><span class="bn"># Funciones</span></span>
+<span id="cb36-367"><a href="#cb36-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-368"><a href="#cb36-368" aria-hidden="true" tabindex="-1"></a><span class="bn">Una función en programación es un bloque de código que realiza una tarea específica y puede ser reutilizado en diferentes partes de un programa. Las funciones ayudan a organizar el código, facilitan la modularidad y mejoran la legibilidad y mantenimiento del código.</span></span>
+<span id="cb36-369"><a href="#cb36-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-372"><a href="#cb36-372" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-373"><a href="#cb36-373" aria-hidden="true" tabindex="-1"></a><span class="bn">sumar &lt;- function(a, b) {</span></span>
+<span id="cb36-374"><a href="#cb36-374" aria-hidden="true" tabindex="-1"></a><span class="bn">  resultado &lt;- a + b</span></span>
+<span id="cb36-375"><a href="#cb36-375" aria-hidden="true" tabindex="-1"></a><span class="bn">  return(resultado)</span></span>
+<span id="cb36-376"><a href="#cb36-376" aria-hidden="true" tabindex="-1"></a><span class="bn">}</span></span>
+<span id="cb36-377"><a href="#cb36-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-378"><a href="#cb36-378" aria-hidden="true" tabindex="-1"></a><span class="bn">resultado_suma &lt;- sumar(3, 5)</span></span>
+<span id="cb36-379"><a href="#cb36-379" aria-hidden="true" tabindex="-1"></a><span class="bn">resultado_suma</span></span>
+<span id="cb36-380"><a href="#cb36-380" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-381"><a href="#cb36-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-382"><a href="#cb36-382" aria-hidden="true" tabindex="-1"></a><span class="bn"># Juntando todo</span></span>
+<span id="cb36-383"><a href="#cb36-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-386"><a href="#cb36-386" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-387"><a href="#cb36-387" aria-hidden="true" tabindex="-1"></a><span class="bn">```</span></span>
+<span id="cb36-388"><a href="#cb36-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-389"><a href="#cb36-389" aria-hidden="true" tabindex="-1"></a><span class="bn"># Referencias</span></span>
+<span id="cb36-390"><a href="#cb36-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-391"><a href="#cb36-391" aria-hidden="true" tabindex="-1"></a><span class="bn">-   R para principiantes Juan Bosco Mendoza Vega [bookdown</span><span class="ch">](</span><span class="ot">https://bookdown.org/</span>jboscomendoza/r<span class="ot">-p</span>rincipiantes4/).</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,438 @@
+---
+title: "Procesamiento del Lenguaje Natural"
+author: "Brahian S - Julian C"
+format:
+  html:
+    toc: true
+    toc-location: left
+    code-fold: true
+    code-tools: true
+date: "2023-12-21"
+categories: [code, analysis, nlp]
+image: "imagen.jpg"
+jupyter: python3
+---
+
+-   Todo el ejercicio fue obtenido de <https://www.kaggle.com/code/ricardomoya/an-lisis-de-sentimientos-clasificaci-n-de-textos/notebook>
+
+-   Notebook introductorio sobre clasificación de textos, aplicando algoritmos de aprendizaje sencillos.
+
+-   Este notebook tiene como objetivo mostrar todo el proceso de clasificación de textos (análisis de sentimientos) sobre críticas de películas.
+
+-   El proceso realizado es el siguiente:
+
+1.  Carga de datos
+2.  Definición del target en función de la nota de la crítica {Negativo, Neutro, Positivo}
+3.  Normalización de textos
+4.  Particionado de datos en entrenamiento y test
+5.  Creacción del modelos de bolsa de palabras y su apliación a los textos
+6.  Creacción de modelos de clasificación con algoritmos de aprendizaje sencillos de clasificación
+7.  Evaluación de los modelos
+
+## 1.- Carga de datos
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:57:48.321272Z', iopub.status.busy: '2021-07-12T10:57:48.320869Z', iopub.status.idle: '2021-07-12T10:57:48.72734Z', shell.execute_reply: '2021-07-12T10:57:48.726384Z', shell.execute_reply.started: '2021-07-12T10:57:48.321191Z'}
+#| trusted: true
+import pandas as pd
+
+df = pd.read_table('reviews_filmaffinity.csv', sep='\|\|', header=0, engine='python')
+df.sample(5)
+```
+
+## 2.- Distribución de votos (Positivo {\>6} - Neutro {4-6} - Negativo {4\>})
+
+1.- Creamos una nueva columna con la polaridad del voto: Positivo \[10, 6), Neutro \[6, 4\], Negativo (4, 0\].
+
+2.- Distribución numérica de los votos de las críticas.
+
+3.- Distribución categórica de la polaridad de los votos.
+
+4.- Distribución de los votos por película.
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:57:48.728988Z', iopub.status.busy: '2021-07-12T10:57:48.728702Z', iopub.status.idle: '2021-07-12T10:57:48.752419Z', shell.execute_reply: '2021-07-12T10:57:48.751556Z', shell.execute_reply.started: '2021-07-12T10:57:48.728962Z'}
+#| trusted: true
+# 1.- Nueva columna con la polaridad de los votos
+df['polaridad'] = df['review_rate'].apply(lambda  x: 'positivo' if x > 6
+                                          else ('negativo' if x < 4
+                                                else 'neutro'))
+df.sample(5)
+```
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:57:48.754598Z', iopub.status.busy: '2021-07-12T10:57:48.754308Z', iopub.status.idle: '2021-07-12T10:57:49.887719Z', shell.execute_reply: '2021-07-12T10:57:49.886795Z', shell.execute_reply.started: '2021-07-12T10:57:48.754569Z'}
+#| trusted: true
+# 2.-  Distribución numérica de los votos de las críticas.
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+sns.catplot(x='review_rate', kind='count', color='b', data=df)
+plt.title('Distribución Votos')
+plt.xlabel('Notas')
+plt.ylabel('Nº Votos')
+```
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:57:49.889852Z', iopub.status.busy: '2021-07-12T10:57:49.889583Z', iopub.status.idle: '2021-07-12T10:57:50.115653Z', shell.execute_reply: '2021-07-12T10:57:50.114751Z', shell.execute_reply.started: '2021-07-12T10:57:49.889827Z'}
+#| trusted: true
+# 3.-  Distribución de votos por polaridad
+
+sns.catplot(x='polaridad', kind='count', data=df,  order=['negativo', 'neutro', 'positivo'])
+plt.title('Distribución Polaridad')
+plt.xlabel('Polaridad')
+plt.ylabel('Nº Votos')
+```
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:57:50.117065Z', iopub.status.busy: '2021-07-12T10:57:50.116802Z', iopub.status.idle: '2021-07-12T10:58:00.469605Z', shell.execute_reply: '2021-07-12T10:58:00.468497Z', shell.execute_reply.started: '2021-07-12T10:57:50.117039Z'}
+#| trusted: true
+# 4.- Distribución de los votos por película.
+
+sns.catplot(x="review_rate", col="film_name", data=df, kind='count', col_wrap=3)
+```
+
+## 3.- Normalización de textos
+
+-   Vamos a definir como texto a clasificar título y la crítica, ya que el título aporta significado al texto.
+
+-   En este punto realizaremos los siguientes pasos:
+
+1.  Concatenación de título y crítica
+
+2.  Pasamos a array de numpy el texto y el target (polaridad)
+
+3.  Importamos el modelo de spacy en español
+
+4.  Normalización de los textos: La normalización es una tarea que tiene como objetivo poner todo el texto en igualdad de condiciones; como por ejemplo:
+
+    -   Pasar todo el texto a minúsculas (o mayúsculas)
+    -   Eliminar signos de puntuación (puntos, comas, comillas, etc)
+    -   Quitar las stop-words: palábras que no aportan significado a los textos
+    -   Convertir números a su equivalente a palabras
+    -   Transformar la palabra a su lema
+    -   Pasar emoticonos a textos
+    -   etc.
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:58:00.471573Z', iopub.status.busy: '2021-07-12T10:58:00.47117Z', iopub.status.idle: '2021-07-12T10:58:00.520212Z', shell.execute_reply: '2021-07-12T10:58:00.519331Z', shell.execute_reply.started: '2021-07-12T10:58:00.471538Z'}
+#| trusted: true
+# 1.- Concatenación de título y crítica
+
+df['texto'] = df['review_title'] + ' ' + df['review_text']
+df.head(5)
+```
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:58:00.521702Z', iopub.status.busy: '2021-07-12T10:58:00.521403Z', iopub.status.idle: '2021-07-12T10:58:00.526794Z', shell.execute_reply: '2021-07-12T10:58:00.525861Z', shell.execute_reply.started: '2021-07-12T10:58:00.521664Z'}
+#| trusted: true
+# 2.- Pasamos a array de numpy el texto (X) y el target-polaridad (y)
+
+X = df['texto'].values
+y =  df['polaridad'].values
+```
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:58:00.530181Z', iopub.status.busy: '2021-07-12T10:58:00.529748Z', iopub.status.idle: '2021-07-12T10:58:15.666332Z', shell.execute_reply: '2021-07-12T10:58:15.665268Z', shell.execute_reply.started: '2021-07-12T10:58:00.530122Z'}
+#| trusted: true
+# 3.- Importamos el modelo de spacy en español
+
+import spacy
+
+# Este comando se ejecuta en consola
+!python -m spacy download es
+```
+
+**NOTA:** *Si ejecutais este notebook en local, es posible que os de un error a la hora de importar el modelo de NLP en español. Si da ese error debéis de cambiar el nombre del modelo de 'es' a 'es_core_news_sm' o como se indique en el proceso de importación del modelo de Spacy.*
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T10:58:15.668363Z', iopub.status.busy: '2021-07-12T10:58:15.668094Z', iopub.status.idle: '2021-07-12T11:03:34.840523Z', shell.execute_reply: '2021-07-12T11:03:34.839793Z', shell.execute_reply.started: '2021-07-12T10:58:15.668335Z'}
+#| trusted: true
+
+import re
+from tqdm import tqdm
+
+# Importamos el modelo en español de spacy
+nlp = spacy.load('es_core_news_sm')
+
+
+def normalize(corpus):
+    """Función que dada una lista de textos, devuelve esa misma lista de textos
+       con los textos normalizados, realizando las siguientes tareas:
+       1.- Pasamos la palabra a minúsculas
+       2.- Elimina signos de puntuación
+       3.- Elimina las palabras con menos de 3 caracteres (palabras que seguramente no aporten significado)
+       4.- Elimina las palabras con más de 11 caracteres (palabras "raras" que seguramente no aporten significado)
+       5.- Elimina las stop words (palabras que no aportan significado como preposiciones, determinantes, etc.)
+       6.- Elimina los saltos de línea (en caso de haberlos)
+       7.- Eliminamos todas las palabras que no sean Nombres, adjetivos, verbos o advervios
+    """
+    for index, doc in enumerate(tqdm(corpus)):
+        doc = nlp(doc.lower())
+        corpus[index] = " ".join([word.lemma_ for word in doc if (not word.is_punct)
+                                  and (len(word.text) > 3) 
+                                  and (len(word.text) < 11) 
+                                  and (not word.is_stop)
+                                  and re.sub('\s+', ' ', word.text)
+                                  and (word.pos_ in ['NOUN', 'ADJ', 'VERB', 'ADV'])])
+        
+        
+    return corpus
+
+# Normalización
+X_norm = normalize(X)
+```
+
+## 4.- Bolsa de Palabras (BoW) - Particionado de datos
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T11:03:34.841742Z', iopub.status.busy: '2021-07-12T11:03:34.8415Z', iopub.status.idle: '2021-07-12T11:03:35.017184Z', shell.execute_reply: '2021-07-12T11:03:35.016333Z', shell.execute_reply.started: '2021-07-12T11:03:34.841716Z'}
+#| trusted: true
+# 1.- Particionamos los textos en entrenamiento y test (80% entrenamiento, 20% test)
+
+from sklearn.model_selection import train_test_split  
+
+X_train, X_test, y_train, y_test = train_test_split(X_norm, y, test_size=0.2, random_state=0)
+
+print('Textos de entrenamiento: {}'.format(len(X_train)))
+print('Textos de test: {}'.format(len(X_test)))
+```
+
+-   Mostramos la distribución del target de los datos de entrenamiento y test para ver si siguen una distribución similar.
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T11:03:35.019221Z', iopub.status.busy: '2021-07-12T11:03:35.018758Z', iopub.status.idle: '2021-07-12T11:03:35.247307Z', shell.execute_reply: '2021-07-12T11:03:35.246347Z', shell.execute_reply.started: '2021-07-12T11:03:35.019175Z'}
+#| trusted: true
+import numpy as np
+
+keys_train, counts_train = np.unique(y_train, return_counts=True)
+keys_test, counts_test = np.unique(y_test, return_counts=True)
+perct_train = counts_train / np.sum(counts_train)
+perct_test = counts_test / np.sum(counts_test)
+
+plt.figure(figsize=(15, 15))
+plt.subplot(1, 2, 1)
+plt.pie(perct_train, labels=keys_train, autopct='%1.1f%%')
+plt.title('Distribución Target Train')
+plt.subplot(1, 2, 2)
+plt.pie(perct_test, labels=keys_test, autopct='%1.1f%%')
+plt.title('Distribución Target Test')
+plt.plot()
+```
+
+### Creamos una bolsa de palabras de frecuencias con los textos de entrenamiento.
+
+-   Creamos un modelo de bolsa de palabras con las 2000 palabras más frecuentes de los textos de entrenamiento que aparezcan por lo menos en 3 documentos distintos.
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T11:03:35.249072Z', iopub.status.busy: '2021-07-12T11:03:35.248704Z', iopub.status.idle: '2021-07-12T11:03:35.869829Z', shell.execute_reply: '2021-07-12T11:03:35.868958Z', shell.execute_reply.started: '2021-07-12T11:03:35.249034Z'}
+#| trusted: true
+from sklearn.feature_extraction.text import CountVectorizer
+
+bow = CountVectorizer(max_features=2000, min_df=3)
+
+# Creamos el modelo de bolsa de palabras con los textos de entrenamiento y aplicamos el modelo
+X_bow_train = bow.fit_transform(X_train)
+
+# A modo de ejemplo mostramos las 20 primeras palabras de la bolsa de palabras
+bow.get_feature_names_out()[0:21]
+```
+
+-   Con el modelo de bolsa de palabras creado con los textos de entrenamiento, aplicamos el modelo a los textos de test.
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T11:03:35.871456Z', iopub.status.busy: '2021-07-12T11:03:35.871066Z', iopub.status.idle: '2021-07-12T11:03:36.028362Z', shell.execute_reply: '2021-07-12T11:03:36.027576Z', shell.execute_reply.started: '2021-07-12T11:03:35.871426Z'}
+#| trusted: true
+X_bow_test = bow.transform(X_test)
+```
+
+![](Ejemplo1.jpg)
+
+## 5.- Creacción de modelos (clasificación)
+
+Utilizamos los siguientes algoritmos (o metaalgoritmos) de aprendizaje de clasificación para crear modelos predictivos capaces de clasificar una crítica de pelicula en alguna de las siguientes clases: {Negativa, Neutra, Positiva}
+
+-   Multinomial Naive Bayes
+-   Bernoulli Naive Bayes
+-   Regresion Logistica
+-   Support Vector Machine
+-   Random Forest (ensemble)
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T11:03:36.029738Z', iopub.status.busy: '2021-07-12T11:03:36.029368Z', iopub.status.idle: '2021-07-12T11:05:07.024315Z', shell.execute_reply: '2021-07-12T11:05:07.023223Z', shell.execute_reply.started: '2021-07-12T11:03:36.02971Z'}
+#| trusted: true
+
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+
+mnb = MultinomialNB()
+bnb = BernoulliNB()
+lr = LogisticRegression(solver='lbfgs', multi_class='multinomial', max_iter=1000)
+svm_lin = SVC(kernel='linear')
+svm_rbf = SVC(kernel='rbf')
+rf_20 = RandomForestClassifier(n_estimators=500, bootstrap=True, criterion='gini', max_depth=20, random_state=0)
+rf_50 = RandomForestClassifier(n_estimators=500, bootstrap=True, criterion='gini', max_depth=50, random_state=0)
+
+clasificadores = {'Multinomial NB': mnb,
+                  'Bernoulli NB': bnb,
+                  'Regresion Logistica': lr,
+                  'SVM lineal': svm_lin,
+                  'SVM Kernel rbf': svm_rbf,
+                  'Random Forest d_20': rf_20,
+                  'Random Forest d_50': rf_50}
+
+
+# Ajustamos los modelos y calculamos el accuracy para los datos de entrenamiento
+for k, v in clasificadores.items():
+    print ('CREANDO MODELO: {clas}'.format(clas=k))
+    v.fit(X_bow_train, y_train)
+```
+
+## 6.- Evaluación de los modelos
+
+-   Para cada uno de los modelos vamos a calcular las siguientes métricas de evaluación:
+
+1.  Accuracy
+2.  Precision
+3.  Recall
+4.  F1
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T11:05:07.026079Z', iopub.status.busy: '2021-07-12T11:05:07.025742Z', iopub.status.idle: '2021-07-12T11:05:47.084934Z', shell.execute_reply: '2021-07-12T11:05:47.084058Z', shell.execute_reply.started: '2021-07-12T11:05:07.026049Z'}
+#| trusted: true
+
+from sklearn.metrics import accuracy_score,precision_score, recall_score, f1_score
+
+def evaluation(model, name, X_train, y_train, X_test, y_test):
+    """
+    Función de devuelve en un diccionario las métricas de evaluación de 
+    Accuracy, Precision, Recall y F1 para los conjuntos de datos de entrenamiento y test
+        model: modelo a evaluar
+        name: nombre del modelo
+        X_train: Variables de entrada del conjunto de datos de entrenamiento
+        y_train: Variable de salida del conjunto de datos de entrenamiento
+        X_test: Variables de entrada del conjunto de datos de test
+        y_test: Variable de salida del conjunto de datos de test
+        return: diccionario con el nombre del modelo y el valor de las métricas
+    """
+    model_dict = {}
+    model_dict['name'] = name
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+    model_dict['accuracy_train'] = accuracy_score(y_true=y_train, y_pred=y_pred_train)
+    model_dict['accuracy_tests'] = accuracy_score(y_true=y_test, y_pred=y_pred_test)
+    model_dict['precision_train'] = precision_score(y_true=y_train, y_pred=y_pred_train, average='weighted')
+    model_dict['precision_tests'] = precision_score(y_true=y_test, y_pred=y_pred_test, average='weighted')
+    model_dict['recall_train'] = recall_score(y_true=y_train, y_pred=y_pred_train, average='weighted')
+    model_dict['recall_tests'] = recall_score(y_true=y_test, y_pred=y_pred_test, average='weighted')
+    model_dict['f1_train'] = f1_score(y_true=y_train, y_pred=y_pred_train, average='weighted')
+    model_dict['f1_tests'] = f1_score(y_true=y_test, y_pred=y_pred_test, average='weighted')
+    
+    return model_dict
+
+
+# Calculamos las métricas de los modelos por separado
+evaluacion = list()
+for key, model in clasificadores.items():
+    evaluacion.append(evaluation(model=model, name=key, 
+                                 X_train=X_bow_train, y_train=y_train,
+                                 X_test=X_bow_test, y_test=y_test))
+
+# Pasamos los resultados a un DataFrame para visualizarlos mejor
+df = pd.DataFrame.from_dict(evaluacion)
+df.set_index("name", inplace=True)
+df
+```
+
+-   Representamos las métricas para los diferentes modelos en un gráfico de barras:
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T11:05:47.086736Z', iopub.status.busy: '2021-07-12T11:05:47.086343Z', iopub.status.idle: '2021-07-12T11:05:47.937496Z', shell.execute_reply: '2021-07-12T11:05:47.936529Z', shell.execute_reply.started: '2021-07-12T11:05:47.086695Z'}
+#| trusted: true
+# Métricas a pintar
+METRICS = ["accuracy", "precision", "recall", "f1"]
+
+# Transformamos el dataframe para pintar las gráficas con seaborn
+df_plot = df.reset_index().melt(id_vars='name').rename(columns=str.title)
+
+plt.figure(figsize=(25, 12))
+pos = 1
+for metric in METRICS:
+    # Filtramos la métrica a pintar
+    df_aux = df_plot[df_plot['Variable'].str.contains(metric)]
+    
+    # Pintamos la gráfica en su posición 2x2
+    plt.subplot(2, 2, pos)
+    sns.barplot(x='Name', y='Value', hue='Variable', data=df_aux)
+    plt.title(metric.upper())
+    plt.grid()
+    plt.legend(bbox_to_anchor=(1.01, 1), loc=2, borderaxespad=0.)
+    plt.xticks(rotation=20)
+    pos += 1
+plt.show()
+```
+
+-   Dibujamos las matrices de confusión de cada uno de los modelos creados para los textos de entrenamiento y test
+
+```{python}
+#| execution: {iopub.execute_input: '2021-07-12T11:05:47.939459Z', iopub.status.busy: '2021-07-12T11:05:47.939041Z', iopub.status.idle: '2021-07-12T11:06:31.332687Z', shell.execute_reply: '2021-07-12T11:06:31.332022Z', shell.execute_reply.started: '2021-07-12T11:05:47.939407Z'}
+#| trusted: true
+import itertools
+
+from sklearn.metrics import confusion_matrix
+
+polaridad = ['positivo', 'neutro', 'negativo']
+
+# Obtenemos las Matrices de confusión
+msc = list()
+for k, v in clasificadores.items():
+    print ('Obteniendo Matriz de Confusión de: {model}'.format(model=k))
+    model = {}
+    model['name'] = k
+    y_pred_train = v.predict(X_bow_train)
+    y_pred_test = v.predict(X_bow_test)
+    model['confusion_matrix_train'] = confusion_matrix(y_true=y_train, y_pred=y_pred_train, labels=polaridad)
+    model['confusion_matrix_test'] = confusion_matrix(y_true=y_test, y_pred=y_pred_test, labels=polaridad)
+    msc.append(model)
+
+    
+# Definimos el heatmap de la matriz de confusión
+def plot_confusion_matrix(cm, classes, title, cmap=plt.cm.Greens):
+    """
+    This function prints and plots the confusion matrix.
+    """
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], 'd'), horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    
+
+# Pintamos las matrices de confusión
+plt.figure(figsize=(20, 35))
+pos = 0
+for mc in msc:
+    pos += 1
+    plt.subplot(len(msc), 2, pos)
+    plot_confusion_matrix(mc['confusion_matrix_train'], classes=polaridad, 
+                          title='{}\nMatriz de Confusión Textos Entrenamiento'.format(mc['name']))
+    pos += 1
+    plt.subplot(len(msc), 2, pos)
+    plot_confusion_matrix(mc['confusion_matrix_test'], classes=polaridad, 
+                          title='{}\nMatriz de Confusión Textos Tests'.format(mc['name'] ))
+plt.show()
+```

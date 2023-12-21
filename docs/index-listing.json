@@ -1,6 +1,7 @@
 {
   "listing": "/index.html",
   "items": [
-    "/posts/Introducción/index.html"
+    "/posts/nlp/index.html",
+    "/posts/tipos-de-variables-en-r/index.html"
   ]
 }
