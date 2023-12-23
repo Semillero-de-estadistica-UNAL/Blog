@@ -1,6 +1,6 @@
 ---
 title: "Procesamiento del Lenguaje Natural"
-author: "Brahian S - Julian C"
+author: ""
 format:
   html:
     toc: true
@@ -13,7 +13,17 @@ image: "imagen.jpg"
 jupyter: python3
 ---
 
--   Todo el ejercicio fue obtenido de <https://www.kaggle.com/code/ricardomoya/an-lisis-de-sentimientos-clasificaci-n-de-textos/notebook>
+::: callout-note
+*El contenido utilizado en esta publicación está sujeto a la Licencia Apache 2.0:*
+
+*Análisis de Sentimientos - Clasificación de textos*
+
+*Autor: RICARDO MOYA*
+
+[*https://www.kaggle.com/code/ricardomoya/an-lisis-de-sentimientos-clasificaci-n-de-textos/notebook*](https://www.kaggle.com/code/ricardomoya/an-lisis-de-sentimientos-clasificaci-n-de-textos/notebook){.uri}
+
+*Este trabajo se deriva del proyecto original 'Análisis de Sentimientos - Clasificación de textos', con ligeras modificaciones motivadas por la actualización de un paquete de Python. Dichas adaptaciones fueron llevadas a cabo por Brahian E y Julián C. Este trabajo se encuentra sujeto a la Licencia Apache 2.0 y respeta la atribución al autor original, en conformidad con los términos establecidos por dicha licencia.*
+:::
 
 -   Notebook introductorio sobre clasificación de textos, aplicando algoritmos de aprendizaje sencillos.
 
